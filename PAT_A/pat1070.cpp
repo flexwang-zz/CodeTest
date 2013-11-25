@@ -52,7 +52,7 @@ public:
  
 	bool operator< (const Mooncake & another) const 
 	{
-    	return price / storage > another.price / another.storage;
+    		return price / storage > another.price / another.storage;
 	}
  
 };
@@ -68,7 +68,7 @@ int main ()
   
  
 	for (int i = 0; i < nmooncake; i++)    
-    {
+    	{
 		Mooncake m;
      
 		scanf ("%f", &m.storage);
@@ -77,9 +77,9 @@ int main ()
   	} 
  
 	for (int i = 0; i < nmooncake; i++)
-    {
+    	{
 		scanf ("%f", &mooncakes[i].price);
-    } 
+    	} 
  	sort(mooncakes.begin (), mooncakes.end ());
   
 	float money = 0.f;
@@ -87,13 +87,13 @@ int main ()
 	vector < Mooncake >::iterator iter = mooncakes.begin ();
   
 	while (demand > 0.f && iter != mooncakes.end ())    
-    {
-      	if (demand > iter->storage)
+    	{
+      		if (demand > iter->storage)
 		{
 			demand -= iter->storage;
 			money += iter->money ();
 		}
-      	else
+      		else
 		{
 			money += iter->money (demand);
 			demand = 0.f;
@@ -102,7 +102,7 @@ int main ()
 		iter++;
 	}
 	printf ("%.2f", money);
-    return 0;
+	return 0;
 
 }
 
