@@ -60,8 +60,7 @@ int main()
 		}
 	}
 
-	// 最长不降子序列
-
+	// longest non-descending subsequence
 
 
 	int size = color.size();
