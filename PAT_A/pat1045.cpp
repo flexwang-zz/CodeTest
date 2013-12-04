@@ -23,6 +23,7 @@ Sample Output:
 
 #include<stdio.h>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
 
@@ -63,33 +64,58 @@ int main()
 	// longest non-descending subsequence
 
 
-	int size = color.size();
+	bool dp = true;
 	
-	vector<int> F(size, 0);
-
-	F[0] = 1;
-	int totalmax = 1;
-
-	for( int i=1; i<size; i++)
+	if( dp)
 	{
-		int max = 1;
+		int size = color.size();
+		
+		vector<int> F(size, 0);
 
-		for(int j=0; j<i; j++)
+		F[0] = 1;
+		int totalmax = 1;
+
+		for( int i=1; i<size; i++)
 		{
-			if( color[j] <= color[i] && (F[j]+1)>max)
+			int max = 1;
+
+			for(int j=0; j<i; j++)
 			{
-				max = F[j]+1;
+				if( color[j] <= color[i] && (F[j]+1)>max)
+				{
+					max = F[j]+1;
+				}
+			}
+			F[i] = max;
+
+			if( F[i] > totalmax)
+			{
+				totalmax = F[i];
 			}
 		}
-		F[i] = max;
-
-		if( F[i] > totalmax)
-		{
-			totalmax = F[i];
-		}
+		
+		printf("%d", totalmax);
 	}
-	
-	printf("%d", totalmax);
-	
+	else
+	{
+		vector<int> D;
+		
+		for( int i=0,size=color.size(); i<size; i++)
+		{
+			vector<int>::iterator iter = upper_bound(D.begin(), D.end(), color[i]);
+
+			if( iter == D.end())
+			{
+				D.push_back(color[i]);
+			}
+			else
+			{
+				*iter = color[i];
+			}
+
+		}
+		
+		printf("%d", D.size());
+	}
 	return 0;
 }
