@@ -101,6 +101,7 @@ int main() {
 			if (city->dist == Max
 					|| city->dist > mincity.dist + mincity.ajacentdistance[i]) {
 				city->dist = mincity.dist + mincity.ajacentdistance[i];
+				city->path = mincity.path;
 				city->path.push_back(minindex);
 				city->cost = mincity.cost + mincity.ajacentcost[i];
 			} else if (city->dist
