@@ -2,155 +2,83 @@
 #include<vector>
 #include<algorithm>
 
-#define min(a,b) ((a<b)?a:b)
-
 using namespace std;
 
 struct Node
 {
-	vector<int> children;
-	int weight;
+	int w;
+	vector<Node*> children;
 
 	Node(){}
-	Node(int w):weight(w){}
+	Node(int k):w(k){}
 };
 
-class Path
+bool bigger(Node *a, Node *b)
 {
-public:
-	vector<int> ws;
-	int weight;
-	int nextnodeid;
+	return a->w > b->w;
+}
 
-	Path():weight(0){}
-	Path(int w)
-	{
-		ws.push_back(w);
+void dfs(Node *, int);
 
-		weight = w;
-	}
-
-	Path& operator+=(int w)
-	{
-		this->ws.push_back(w);
-		this->weight += w;
-
-		return *this;
-	}
-
-	bool operator<(const Path&path) const
-	{
-		int size = min(ws.size(), path.ws.size());
-
-		for( int i=0; i<size; i++)
-		{
-			if( ws[i] > path.ws[i] )
-			{
-				return true;
-			}
-			else if( ws[i] < path.ws[i])
-			{
-				return false;
-			}
-		}
-
-		return false;
-	}
-
-	void print()
-	{
-		for( int i=0, size=ws.size(); i<size; i++)
-		{
-			printf("%d", ws[i]);
-			if( i != size-1)
-			{
-				printf(" ");
-			}
-		}
-		printf("\n");
-	}
-};
+int value;
+vector<int> result;
 
 int main()
 {
-	int nnode, nfather, weight;
-	vector<Node> nodes(100);
+	int nnode, nroot;
 
-	scanf("%d %d %d", &nnode, &nfather, &weight);
+	scanf("%d %d %d", &nnode, &nroot, &value);
 
-	for( int i=0; i<nnode; i++)
-	{
-		scanf("%d", &nodes[i].weight);
+	vector<Node*> nodes;
+	for (int i=0; i<nnode; i++) {
+		int weight;
+
+		scanf("%d", &weight);
+		nodes.push_back(new Node(weight));
 	}
 
-	for( int i=0; i<nfather; i++)
-	{
-		int nodeid;
-		int nchildren;
-		scanf("%d %d", &nodeid, &nchildren);
+	for (int i=0; i<nroot; i++) {
+		int id, nchild;
+		scanf("%d %d", &id, &nchild);
 
-		nodes[nodeid].children = vector<int>(nchildren);
-
-		for(int i=0; i<nchildren; i++)
-		{
-			scanf("%d", &(nodes[nodeid].children[i]));
+		for (int j=0; j<nchild; j++) {
+			int childid;
+			scanf("%d", &childid);
+			nodes[id]->children.push_back(nodes[childid]);
 		}
+
+		sort(nodes[id]->children.begin(), nodes[id]->children.end(), bigger);
 	}
 
-	vector<Path> paths(1);
-	vector<Path> nextlayer;
-	vector<Path> result;
-	
-	paths[0].nextnodeid = 0;
-
-	while(paths.size())
-	{
-		vector<Path>::iterator iter = paths.begin();
-		while(iter != paths.end())
-		{
-			int id = iter->nextnodeid;
-			*iter += nodes[id].weight;
-
-			if( iter->weight > weight)
-			{
-				iter ++;
-				continue;
-			}
-			else
-			{
-				int size = nodes[id].children.size();
-
-				if( size <= 0)
-				{
-					if( iter->weight == weight)
-					{
-						result.push_back(*iter);
-					}
-					iter ++;
-					continue;
-				}
-				else
-				{
-					for( int i=0; i<size; i++)
-					{
-						Path p = *iter;
-						p.nextnodeid = nodes[id].children[i];
-						nextlayer.push_back(p);
-					}
-					iter ++;
-				}
-			}
-		}
-		paths = nextlayer;
-		nextlayer.clear();
-	}
-
-	sort(result.begin(), result.end());
-
-	for( int i=0, size=result.size(); i<size; i++)
-	{
-		result[i].print();
-	}
-
+	dfs(nodes[0], 0);
 	return 0;
+}
+
+void dfs(Node *n, int v)
+{
+	v += n->w;
+	result.push_back(n->w);
+	if ( n->children.size()) {
+		if ( v > value) {
+			return;
+		}
+		else {
+			for (int i=0; i<n->children.size(); i++) {
+				dfs(n->children[i], v);
+				result.pop_back();
+			}
+		}
+	}
+	else {
+		if (v == value) {
+			for (int i=0; i<result.size(); i++) {
+				if (i)
+				{
+					printf(" ");
+				}
+				printf("%d", result[i]);
+			}
+			printf("\n");
+		}
+	}
 }
