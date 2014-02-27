@@ -22,133 +22,72 @@ Sample Input 2:
 Sample Output 2:
 No Solution
 */
+
 #include<stdio.h>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
 
-#define min(a,b) (a<b)?a:b
-
-class Node
-{
-public:
-	vector<int> v;
-	int remain;
-	int time;
-
-	bool operator<(const Node&node) const
-	{
-		int size = min(v.size(), node.v.size());
-
-		for(int i=0; i<size; i++)
-		{
-			if( v[i] < node.v[i])
-			{
-				return true;
-			}
-			else if( v[i] > node.v[i])
-			{
-				return false;
-			}
-		}
-	}
-};
-
-
-
-
 int main()
 {
-	int n, money;
+	int nnumber, value;
 
-	scanf("%d %d", &n, &money);
+	scanf("%d %d", &nnumber, &value);
 
-	vector<int> bucket(money+1);
-	for( int i=0; i<=money; i++)
-	{
-		bucket[i] = 0;
+	vector<int> coins;
+
+	for (int i=0; i<nnumber; i++) {
+		int x;
+		scanf("%d", &x);
+
+		coins.push_back(x);
 	}
 
-	for( int i=0; i<n; i++)
-	{
-		int m;
-		scanf("%d", &m);
+	sort(coins.begin(), coins.end(), greater<int>());
+	
+	coins.insert(coins.begin(), 0);
+	vector<vector<int>> table(nnumber+1, vector<int>(value+1, 0));
+	vector<vector<bool>> path(nnumber+1, vector<bool>(value+1,false));
 
-		if( m <= money)
-		{
-			bucket[m] ++;
+
+	for (int i=1; i<=nnumber; i++) {
+		for (int j=1; j<=value; j++) {
+			
+			int sec = 0;
+			if ((j-coins[i]) >= 0) {
+				sec = table[i-1][j-coins[i]] + coins[i];
+			}
+
+			if (table[i-1][j] > sec) {
+				table[i][j] = table[i-1][j];
+			}
+			else {
+				table[i][j] = sec;
+				path[i][j] = true;
+			}
 		}
 	}
 
-	vector<Node> nodes;
-	Node result;
-	result.v.push_back(money+1);
+	if (table[nnumber][value] == value) {
+		vector<int> result;
 
-	Node node;
-	node.remain = money;
-	node.v.push_back(0);
-	node.time = 0;
-
-	nodes.push_back(node);
-
-	while(nodes.size())
-	{
-		vector<Node> nextlayer;
-
-		for(int i=0,size=nodes.size(); i<size; i++)
-		{
-			int remain = nodes[i].remain;
-
-			if( result < nodes[i])
-			{
-				continue;
-			}
-			else if( remain <= 0)
-			{
-				result = nodes[i];
-				continue;
-			}
-
-			int start = nodes[i].v.back();
-
-			if( bucket[start]-nodes[i].time > 0 && start <= remain)
-			{
-				Node node = nodes[i];
-				node.time ++;
-				node.v.push_back(start);
-				node.remain = remain-start;
-				nextlayer.push_back(node);
-			}
-
-			for(int j=start+1; j<=remain; j++)
-			{
-				if( bucket[j] > 0)
-				{
-					Node node = nodes[i];
-					node.v.push_back(j);
-					node.remain -= j;
-					node.time = 1;
-					nextlayer.push_back(node);
-				}
-			}
+		while (value > 0) {
+			while (!path[nnumber][value])
+				nnumber--;
+			result.push_back(coins[nnumber]);
+			value -= coins[nnumber];
+			nnumber--;
 		}
 
-		nodes = nextlayer;
-	}
-
-	if( !result.v[0] )
-	{
-		for( int i=1; i<result.v.size(); i++)
-		{
-			if( i>1)
-			{
-				printf(" ");
-			}
-			printf("%d", result.v[i]);
+		bool first = true;
+		for (int i=0; i<result.size(); i++) {
+			if (first)	first = false;
+			else	printf(" ");
+			printf("%d", result[i]);
 		}
 	}
-	else
-	{
+	else {
 		printf("No Solution");
 	}
 
