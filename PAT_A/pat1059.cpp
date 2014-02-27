@@ -1,101 +1,79 @@
-/*
-Given any positive integer N, you are supposed to find all of its prime factors, and write them in the format N = p1^k1 * p2^k2 *бн*pm^km.
-
-Input Specification:
-
-Each input file contains one test case which gives a positive integer N in the range of long int.
-
-Output Specification:
-
-Factor N in the format N = p1^k1 * p2^k2 *бн*pm^km, where pi's are prime factors of N in increasing order, and the exponent ki is the number of pi -- hence when there is only one pi, ki is 1 and must NOT be printed out.
-
-Sample Input:
-97532468
-Sample Output:
-97532468=2^2*11*17*101*1291
-*/
 #include<stdio.h>
 #include<vector>
 
 using namespace std;
 
-struct Node
+struct node
 {
-	long int val;
+	int key;
 	int time;
-	Node(long int v):val(v), time(1){}
-	void print()
-	{
-		printf("%ld", val);
-		if( time > 1)
-		{
-			printf("^%d", time);
-		}
-	}
+
+	node(){}
+	node(int k):key(k), time(1){}
 };
 
-bool IsPrime(long int p, vector<long int>&primes)
-{
-	for(int i=0,size=primes.size(); i<size; i++)
-	{
-		if( primes[i] >= p )
-		{
-			return true;
-		}
-		if( !(p%primes[i]))
-		{
-			return false;
-		}
-	}
-
-	primes.push_back(p);
-	return true;
-}
+vector<int> primes;
+bool isprime(int p);
 
 int main()
 {
-	long int n;
-	vector<Node> nodes;
-	vector<long int> primes;
-	scanf("%ld", &n);
+	int m;
 
-	printf("%ld=", n);
+	scanf("%d", &m);
 
-	if( n == 1)
-	{
+	printf("%d=", m);
+
+	if (m == 1) {
 		printf("1");
 		return 0;
 	}
+	vector<node> factors;
 	int p = 2;
-	
-	while( n > 1)
+	while (m > 1)
 	{
-		if( IsPrime(p, primes) && n%p == 0)
-		{
-			n /= p;
-			if(nodes.size() > 0 && nodes.back().val==p)
+		while (m%p == 0) {
+			if (factors.size())
 			{
-				nodes.back().time++;
+				if (factors.back().key == p) {
+					factors.back().time ++;
+				}
+				else {
+					factors.push_back(node(p));
+				}
 			}
 			else
 			{
-				nodes.push_back(Node(p));
+				factors.push_back(node(p));
 			}
+
+			m /= p;
 		}
-		else
-		{
-			p++;
-		}
+
+		while (!isprime(++p))
+			;
 	}
 
-	for( int i=0,size=nodes.size(); i<size; i++)
-	{
-		if( i )
-		{
-			printf("*");
-		}
-		nodes[i].print();
-	}
+	for (int i=0; i<factors.size(); i++) {
+	
+		if (i)	printf("*");
 
+		printf("%d", factors[i].key);
+
+		if (factors[i].time > 1) {
+			printf("^%d", factors[i].time);
+		}
+	}
 	return 0;
+}
+
+bool isprime(int p)
+{
+	for (int i=0; i<primes.size(); i++) {
+		if (p!=primes[i] && p%primes[i] == 0) {
+			return false;
+		}
+	}
+	primes.push_back(p);
+	
+	return true;
 }
