@@ -1,284 +1,154 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 
 using namespace std;
 
-#define min2(a, b) (a)<(b)?(a):(b)
-#define LOOP	for(int y=0; y<r; y++) { for(int x=0; x<c; x++) {
-#define INDEX (y*c+x)
+char ch[51][51];
 
-void inline swap2(int &a, int &b) {
-	int tmp = a;
-	a = b;
-	b = tmp;
-}
+bool solve(int r, int c, int m) {
+	memset(ch, '\0', sizeof(ch));
+	for (int i=0; i<r; i++) {
+		for (int j=0; j<c; j++) {
+			ch[i][j] = '*';
+		}
+	}
 
-int inline sqrtint(int x) {
-	double r = sqrt((double)x);
-	int r1 = (int)r +1;
+	int nnull = r*c -m;
 
-	while (r1*r1 > x)
-		r1 --;
+	if (m == 0) {
+		for (int i=0; i<r; i++) {
+			for (int j=0; j<c; j++) {
+				ch[i][j] = '.';
+			}
+		}	
+		ch[0][0] = 'c';
 
-	return r1;
-}
+		return true;
+	}
 
-int inline sqrint(int x) {
-	return x*x;
+	if (r == 1) {
+		for (int i=0; i<nnull; i++) {
+			ch[0][i] = '.';
+		}
+		ch[0][0] = 'c';
+
+		return true;
+	}
+
+	if (nnull == 1) {
+		ch[0][0] = 'c';
+
+		return true;
+	}
+
+	if (nnull <=3 || nnull ==5 || nnull == 7) {
+		return false;
+	}
+
+	if (r == 2) {
+		if (nnull%2)	return false;
+		else {
+			for (int i=0; i<nnull/2; i++) {
+				ch[0][i] = '.';
+				ch[1][i] = '.';
+			}
+			ch[0][0] = 'c';
+
+			return true;
+		}
+	}
+
+	if (nnull / r <= 2) {
+		if (nnull %2 ) {
+			for (int y=0; y<r; y++) {
+				for (int x=0; x<c; x++) {
+					if (x < 2 && y < (nnull/2-1) || (x==2) && y<3) {
+						ch[y][x] = '.';
+					}
+				}
+			}
+		}
+		else {
+			for (int x=0; x< min(c, nnull /2); x++) {
+				ch[x][0] = '.';
+				ch[x][1] = '.';
+			}
+			if ( nnull > r*2) {
+				for (int i=0; i<nnull - 2*r; i++) {
+					ch[i][2] = '.';
+				}
+			}
+		}
+		ch[0][0] = 'c';
+
+		return true;
+	}
+
+	if (nnull%r == 1) {
+		for (int y=0; y<r; y++) {
+			for (int x=0; x<c; x++) {
+				if ( (x==nnull/r && y<2 )|| (y==(r-1) && (x < (nnull /r)-1)) || (y!=(r-1)&&(x < (nnull /r)))) {
+					ch[y][x] = '.';
+				}
+			}
+		}
+
+		ch[0][0] = 'c';
+
+		return true;
+	}
+
+	for (int y=0; y<r; y++) {
+		for (int x=0; x<c; x++) {
+
+			if ( x < nnull/r) {
+				ch[y][x] = '.';
+			}
+			else if ( x == nnull/r && y<nnull%r) {
+				ch[y][x] = '.';
+			}
+		}
+	}
+
+	ch[0][0] = 'c';
+
+	return true;
+
 }
 
 int main()
 {
 	int T;
-
 	cin >>T;
 
 	for (int t=1; t<=T; t++) {
-		cout<<"Case #"<<t<<":";
-		
-		int r, c, m;
+		cout<<"Case #"<<t<<":"<<endl;
 
+		int r, c, m;
+		bool inv = false;
 		cin >>r>>c>>m;
 
-		int minsize = min2(r, c);
+		if (r > c) {
+			int tmp = r;
+			r = c;
+			c = tmp;
+			inv = true;
+		}
 
-		int nnull = r*c - m;
-		int root = sqrtint(nnull);
-
-		if (m == 0) {
-			cout <<endl;
-			LOOP
-					if (x==0 && y==0) {
-						cout << 'c';
-					}
-					else {
-						cout << '.';
-					}
-				}
-				cout << endl;
-			}
-		}
-		else if (minsize == 1) {
-			cout <<endl;
-			LOOP
-					if (x==0 && y==0) {
-						cout << 'c';
-					}
-					else if (INDEX < nnull) {
-						cout << '.';
-					}
-					else {
-						cout << '*';
-					}
-				}
-				cout << endl;
-			}
-		}
-		else if (nnull == 1) {
-			cout << endl;
-			LOOP
-					if (x==0 && y==0) {
-						cout << 'c';
-						continue;
-					}
-					cout << '*';
-				}
-				cout << endl;
-			}
-		}
-		else if (nnull <= 3 || nnull ==5 || nnull == 7) {
-			cout << endl<<"Impossible" << endl;
-		}
-		else if (minsize == 2) {
-			if (nnull %2) {
-				cout << endl<<"Impossible" <<endl;
-			}
-			else {
-				cout << endl;
-				LOOP
-						if (x==0 && y==0) {
-							cout << 'c';
-							continue;
-						}
-						if (minsize == r) {
-							if (x < nnull/2) {
-								cout << '.';
-							}
-							else {
-								cout << '*';
-							}
-						}
-						else {
-							if (y < nnull/2) {
-								cout << '.';
-							}
-							else {
-								cout << '*';
-							}
-						}
-					}
+		if (solve(r, c, m)) {
+			if (inv) {
+				for (int j = 0; j < c; ++j) {
+					for (int i = 0; i < r; ++i)
+						cout << ch[i][j];
 					cout << endl;
 				}
-				
+			} else {
+				for (int i = 0; i < r; ++i) cout << ch[i]<<endl;
 			}
-
-		}
-		else if (minsize == 3 && false) {
 		}
 		else {
-			if ((nnull / minsize) < 2) {
-				if (nnull % 2) {
-					cout << endl;
-					for (int y=0; y<r; y++) {
-						for (int x=0; x<c; x++) {
-							if (x==0 && y==0) {
-								cout << 'c';
-								continue;
-							}
-							if (minsize == r) {
-								if (x < 2 && y < (nnull/2-1) || (x==2) && y<3) {
-									cout << '.';
-								}		
-								else {
-									cout << '*';
-								}
-							}
-							else {
-								if (y < 2 && x < (nnull/2-1) || (y==2) && x<3) {
-									cout << '.';
-								}		
-								else {
-									cout << '*';
-								}
-							}
-						}
-						cout << endl;
-					}
-				}
-				else if ((nnull %2) == 0) {
-					cout << endl;
-					for (int y=0; y<r; y++) {
-						for (int x=0; x<c; x++) {
-							if (x==0 && y==0) {
-								cout << 'c';
-								continue;
-							}
-
-							if (minsize ==r) {
-								if (x <2 && y < nnull/2) {
-									cout << '.';
-								}
-								else {
-									cout << '*';
-								}
-							}
-							else {
-								if (y <2 && x < nnull/2) {
-									cout << '.';
-								}
-								else {
-									cout << '*';
-								}
-							}
-						}
-						cout << endl;
-					}
-				}
-			}
-			else if ((nnull / minsize) >= 2) {
-				cout << endl;
-				if (nnull %minsize == 1) {
-					for (int y=0; y<r; y++) {
-						for (int x=0; x<c; x++) {
-							if (nnull / minsize > 2) {
-								if (x==0 && y==0) {
-									cout << 'c';
-									continue;
-								}
-								if (minsize == r) {
-									if ( (x < (nnull /minsize)+1)&&y<2 || (y!=(r-1)&&(x < (nnull /minsize))) || (y==(r-1)&&x < (nnull /minsize)-1)) {
-										cout << '.';
-									}
-									else {
-										cout << '*';
-									}
-								}
-								else {
-									if ( (y < (nnull /minsize)+1)&&x<2 || (x!=(c-1)&&(y < (nnull /minsize))) || (x==(c-1)&&y < (nnull /minsize)-1)) {
-										cout << '.';
-									}
-									else {
-										cout << '*';
-									}
-								}
-							}
-							else {
-								if (x==0 && y==0) {
-									cout << 'c';
-									continue;
-								}
-								if (minsize == r) {
-									if (x<2 && y <minsize-1 || y<3 && x == 2) {
-										cout << '.';
-									}
-									else {
-										cout << '*';
-									}
-								}
-								else {
-									if (y<2 && x <minsize-1 || x<3 && y == 2) {
-										cout << '.';
-									}
-									else {
-										cout << '*';
-									}
-								}
-							}
-						}
-						cout << endl;
-					}
-					
-				}
-				else if (nnull % minsize != 1) {
-					for (int y=0; y<r; y++) {
-						for (int x=0; x<c; x++) {
-							if (x==0 && y==0) {
-								cout << 'c';
-								continue;
-							}
-							if (minsize == r) {
-									if ( x < nnull /minsize) {
-										cout << '.';
-									}
-									else if ( x == nnull /minsize && y<nnull%minsize) {
-										cout << '.';
-									}
-									else {
-										cout << '*';
-									}
-							}
-							else {
-								if ( y < nnull/minsize) {
-									cout << '.';
-								}
-								else if ( y == nnull /minsize && x<nnull%minsize) {
-										cout << '.';
-								}
-								else {
-									cout << '*';
-								}
-							}
-						}
-						cout << endl;
-					}
-					
-				}
-			}
+			cout << "Impossible"<<endl;
 		}
+
 	}
 
 	return 0;
