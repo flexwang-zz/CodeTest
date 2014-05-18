@@ -6,7 +6,7 @@ Codetest Source Code
 
 这些OJ目前包括
 
-  - [PAT](http://example.com/)
+  - [PAT](http://pat.zju.edu.cn/)
   - [leetcode](http://oj.leetcode.com/)
   - [Google Code Jam](https://code.google.com/codejam/)
 
