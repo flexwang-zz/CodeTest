@@ -15,7 +15,7 @@ Codetest Source Code
 License
 ----
 
-GPL
+GNU GENERAL PUBLIC LICENSE Version 3
 
 
     
