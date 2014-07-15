@@ -13,7 +13,7 @@ Codetest Source Code
 欢迎交流。
 
   - <zhaotianzju@gmail.com>
-  - [微博](http://pat.zju.edu.cn/)
+  - [微博](http://weibo.com/flexwang2/)
 
 License
 ----
