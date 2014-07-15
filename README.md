@@ -10,7 +10,10 @@ Codetest Source Code
   - [leetcode](http://oj.leetcode.com/)
   - [Google Code Jam](https://code.google.com/codejam/)
 
-欢迎交流。<zhaotianzju@gmail.com>
+欢迎交流。
+
+<zhaotianzju@gmail.com>
+
 http://weibo.com/flexwang2/
 
 License
