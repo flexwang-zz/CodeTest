@@ -12,7 +12,7 @@ Codetest Source Code
 
 欢迎交流。
 
-  - [个人博客](http://flexwang.github.io/)
+  - [个人博客](http://flexwang.me/)
   - <zhaotianzju@gmail.com>
   - [微博](http://weibo.com/flexwang2/)
 
