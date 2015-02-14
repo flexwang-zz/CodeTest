@@ -35,6 +35,8 @@ Sample Output:
 */
 #include <stdio.h>
 #include <vector>
+#include <queue>
+
 
 using namespace std;
 
@@ -71,7 +73,7 @@ bool is_used(int x, int y, int z)
     return used[xyz_to_n(x, y, z)];
 }
 
-void dfs(int v, int& volume) 
+void dfs(int v, int& volume) //segmentation fault might occur
 {
     used[v] = true;
     volume ++;
@@ -88,26 +90,24 @@ void dfs(int v, int& volume)
 
 void bsf(int v, int& volume) 
 {
+    queue<int> q;
     vector<int> this_layer, nextlayer;
     this_layer.push_back(v);
-    
-    while(this_layer.size()) {
-        nextlayer.clear();
-        for (int i=0; i<this_layer.size(); i++) {
-            v = this_layer[i];
-            if (used[v]) continue;
-            used[v] = true;
-            volume ++;
-            int x, y, z;
-            n_to_xyz(v, x, y, z);
+    q.push(v);
 
-            for (int j=0; j<6; j++) {
-                int id = xyz_to_n(x+delta[j][0], y+delta[j][1], z+delta[j][2]);
-                if (!is_used(x+delta[j][0], y+delta[j][1], z+delta[j][2]) && pixels[id])
-                    nextlayer.push_back(id);
-            }
+    while (q.size()) {
+        v = q.front(); q.pop();
+        if (used[v]) continue;
+        used[v] = true;
+        volume ++;
+        int x, y, z;
+        n_to_xyz(v, x, y, z);
+
+        for (int j=0; j<6; j++) {
+            int id = xyz_to_n(x+delta[j][0], y+delta[j][1], z+delta[j][2]);
+            if (!is_used(x+delta[j][0], y+delta[j][1], z+delta[j][2]) && pixels[id])
+                q.push(id);
         }
-        this_layer = nextlayer;
     }
 }
 
@@ -130,7 +130,7 @@ int main()
     for (int i=0; i<m*n*l; i++) {
         if (!used[i] && pixels[i]) {
             int volume = 0;
-            bsf(i, volume);
+            bsf(i, volume);	//dsf(i, volume) might cause segmentation fault
             if (volume >= t)
                 ans += volume;
         }
