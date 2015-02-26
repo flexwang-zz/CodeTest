@@ -59,11 +59,9 @@ void add_edge(int from, int to, int dist)
 
 int min_cost_flow(int s, int t, int f) {
     int ans = 0;
-
+	
     fill(h, h+n, 0);
-
-
-
+	
     while (f > 0) {
         priority_queue<P, vector<P>, greater<P> > que;
         fill(dist, dist+n, INT_MAX);
