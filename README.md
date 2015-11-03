@@ -10,6 +10,7 @@ Codetest Source Code
   - [POJ](http://poj.org/)
   - [leetcode](http://oj.leetcode.com/)
   - [Google Code Jam](https://code.google.com/codejam/)
+  - [hihoCoder](http://www.hihocoder.com/)
 
 欢迎交流。
 
