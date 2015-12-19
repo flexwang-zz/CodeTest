@@ -1,5 +1,5 @@
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
@@ -9,41 +9,22 @@
  */
 class Solution {
 public:
-    int maxPathSum(TreeNode *root) {
-        int max = root->val;
-        
-        maxPathSum(root, max);
-        
-        return max;
+    int maxPathSum(TreeNode* root) {
+        int ans = INT_MIN;
+        maxPathSum(root, ans);
+        return ans;
     }
     
-    int max2(int a, int b)
-    {
-        return a>b?a:b;
-    }
-    
-    int max3(int a, int b, int c)
-    {
-        return max2(a,(max2(b,c)));
-    }
-    
-    int maxPathSum(TreeNode *root, int &max)
-    {
-        if (!root)
-        {
+    int maxPathSum(TreeNode* node, int &ans) {
+        //1
+        if (!node) 
             return 0;
-        }
         
-        int left = maxPathSum(root->left, max);
-        int right = maxPathSum(root->right, max);
+        //2
+        int left_chain = max(0, maxPathSum(node->left, ans));
+        int right_chain = max(0, maxPathSum(node->right, ans));
         
-        int m = max3(root->val+left, root->val+right, root->val+left+right);
-        
-        if (m > max)
-        {
-            max = m;
-        }
-        
-        return max3(root->val, root->val+left, root->val+right);
+        ans = max(ans, left_chain + node->val + right_chain);
+        return max(left_chain+node->val, right_chain+node->val);
     }
 };
