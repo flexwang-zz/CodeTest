@@ -2,7 +2,7 @@ Codetest Source Code
 =========
 
 
-自己做过的一些Online Judge的AC代码。
+一些Online Judge的AC代码。
 
 这些OJ目前包括
 
@@ -12,11 +12,8 @@ Codetest Source Code
   - [Google Code Jam](https://code.google.com/codejam/)
   - [hihoCoder](http://www.hihocoder.com/)
 
-欢迎交流。
+欢迎补充。
 
-  - [个人博客](http://flexwang.me/)
-  - <zhaotianzju@gmail.com>
-  - [微博](http://weibo.com/flexwang2/)
 
 License
 ----
