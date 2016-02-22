@@ -58,7 +58,6 @@ def accept(s):
                 ca1 += 1
             else:
                 ca2 += 1
-#    print('%d, %d, %d'%(ca0, ca1, ca2))
     if cp > 0 and ct > 0 and ca1 > 0 and (ca2 - ca0) == ca0 * (ca1 - 1):
         return True
     return False
