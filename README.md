@@ -6,7 +6,7 @@ Codetest Source Code
 
 这些OJ目前包括
 
-  - [PAT](http://pat.zju.edu.cn/)
+  - [PAT](https://www.patest.cn/)
   - [POJ](http://poj.org/)
   - [leetcode](http://oj.leetcode.com/)
   - [Google Code Jam](https://code.google.com/codejam/)
@@ -19,6 +19,11 @@ License
 ----
 
 GNU General Public License v3.0
+
+Contributors
+----
+  - [flexwang](https://github.com/flexwang)
+  - [Boomshakalak](https://github.com/Boomshakalak)
 
 
     
