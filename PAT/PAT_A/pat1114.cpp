@@ -35,3 +35,94 @@ Sample Output:
 0001 15 0.600 100.000
 5551 4 0.750 100.000
 */
+
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+#include <algorithm>
+
+
+using namespace std;
+
+struct person
+{
+    int s;
+    double a;
+    vector<int> children;
+    bool visited;
+    person():visited(false), s(0), a(0.0){}
+};
+
+struct out
+{
+    int id, n;
+    double as, aa;
+    out():id(99999), n(0), as(0.0), aa(0.0){}
+    bool operator<(const out &o) const {
+        if (o.aa == aa)
+            return id < o.id;
+        return aa > o.aa;
+    }
+};
+
+
+const int max_n = 1001;
+unordered_map<int, person> ps;
+int n;
+
+void dfs(int id, out &o) {
+    if (ps[id].visited) return;
+    ps[id].visited = true;
+    o.n ++;
+    o.id = min(o.id, id);
+    o.as += ps[id].s;
+    o.aa += ps[id].a;
+    for (auto t:ps[id].children)
+        dfs(t, o);
+}
+
+
+int main()
+{
+    cin >> n;
+    for (int i=0; i<n; ++i) {
+        int id, f, m, nc;
+        cin >> id >> f >> m >> nc;
+        person p;
+        p.children.resize(nc);
+        for (auto &x:p.children)
+            cin >> x;
+        if (f >= 0) p.children.push_back(f);
+        if (m >= 0) p.children.push_back(m);
+        cin >> p.s >> p.a;
+        ps.insert(make_pair(id, p));
+    }
+    unordered_map<int, person>  um;
+    for (auto p:ps)
+        for (auto x:p.second.children)
+            if (ps.count(x))
+                ps[x].children.push_back(p.first);
+            else
+                um[x].children.push_back(p.first);
+    for (auto p:um)
+        ps.insert(p);
+
+    vector<out> res;
+    for (auto &p :ps) 
+        if (!p.second.visited) {
+            out o;
+            dfs(p.first, o);
+            o.as /= o.n;
+            o.aa /= o.n;
+            res.push_back(o);
+        }
+    sort(res.begin(), res.end());
+
+    cout << res.size() << endl;
+    for (auto &x : res)
+        printf("%04d %d %.3f %.3f\n", x.id, x.n, x.as, x.aa);
+
+    return 0;
+}
