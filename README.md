@@ -11,6 +11,7 @@ Codetest Source Code
   - [leetcode](http://oj.leetcode.com/)
   - [Google Code Jam](https://code.google.com/codejam/)
   - [hihoCoder](http://www.hihocoder.com/)
+  - [Codeforces](http://codeforces.com/)
 
 欢迎补充。
 
