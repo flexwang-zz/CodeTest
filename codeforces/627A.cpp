@@ -16,30 +16,28 @@ int main()
 {
     ll s, x;
     cin >> s >> x;
-    ll a[max_n], b[max_n];
-    a[0] = 1;
-    b[0] = 0;
+    ll a = 1, b = 0;
     for (int i=1; i<max_n; ++i) {
         ll sb = get_bit(s, i-1);
         ll xb = get_bit(x, i-1);
         if (sb && xb) {
-            a[i] = 2*a[i-1];
-            b[i] = 0;
+            a *= 2;
+            b = 0;
         }
         else if (!sb && xb) {
-            a[i] = 0;
-            b[i] = 2*b[i-1];
+            a = 0;
+            b *= 2;
         }
         else if (sb && !xb) {
-            a[i] = b[i-1];
-            b[i] = b[i-1];
+            a = b;
+            b = b;
         }
         else {
-            b[i] = a[i-1];
-            a[i] = a[i-1];
+            b = a;
+            a = a;
         }
     } 
-    if (s == x) a[max_n-1] -= 2;
-    cout << a[max_n-1] << endl;
+    if (s == x) a -= 2;
+    cout << a << endl;
     return 0;
 }
