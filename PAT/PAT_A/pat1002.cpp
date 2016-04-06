@@ -25,8 +25,6 @@ const int max_n = 1001;
 float a[max_n], b[max_n], c[max_n];
 
 void read_poly(float a[]) {
-	for (int i=0; i<max_n; ++i)
-		a[i] = 0.f;
 	int k;
 	scanf("%d", &k);
 	for (int i=0; i<k; ++i) {
