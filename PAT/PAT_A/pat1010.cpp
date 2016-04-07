@@ -55,7 +55,7 @@ int main()
         lb = max(lb, char2int(ch));
     for (ub=lb+1; get_value(s2, ub)<target; ub<<=1);
     while (lb+1 < ub) {
-        ll m = (lb + ub) / 2;
+        ll m = (ub-lb)/2+lb;
         ll s = get_value(s2, m);
         if (s < target) lb = m;
         else ub = m;
