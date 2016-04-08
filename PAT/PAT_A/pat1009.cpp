@@ -12,109 +12,44 @@
  3 3 3.6 2 6.0 1 1.6
  */
 
-#include<stdio.h>
+#include <iostream>
+#include <unordered_map>
+#include <map>
+#include <vector>
+#include <stdio.h>
 
-class Node {
-public:
-	float a;
-	int n;
-	Node* next;
+using namespace std;
 
-	Node(float aa, int nn) :
-			a(aa), n(nn), next(NULL) {
+void read_poly(unordered_map<int,float> &um) {
+	int k;
+	cin >> k;
+	while (k--) {
+		int a;
+		float b;
+		cin >> a >> b;
+		um[a] += b;
 	}
-};
-
-class Poly {
-public:
-	int len;
-	Node* head;
-	Poly() :
-			len(0), head(NULL) {
-	}
-	void print() {
-		printf("%d ", len);
-		Node* cur = head;
-		for (int i = 0; i < len; i++) {
-			printf("%d %.1f", cur->n, cur->a);
-			if (i != (len - 1))
-				printf(" ");
-			cur = cur->next;
-		}
-		if (len <= 0)
-			printf("0 0");
-	}
-	void insert(float a, int n) {
-		if (!head) {
-			head = new Node(a, n);
-			len++;
-		} else {
-			Node* cur = head;
-			Node* last = NULL;
-			while (true) {
-				if (!cur) {
-					last->next = new Node(a, n);
-					len++;
-					break;
-				}
-				if (cur->n == n) {
-					cur->a += a;
-					if (cur->a == 0) {
-						if (last) {
-							last->next = cur->next;
-							delete cur;
-						} else {
-							delete cur;
-							cur = NULL;
-						}
-						len--;
-					}
-					break;
-				}
-				if (cur->n < n) {
-					if (last) {
-						last->next = new Node(a, n);
-						last->next->next = cur;
-					} else {
-						head = new Node(a, n);
-						head->next = cur;
-					}
-					len++;
-					break;
-				}
-
-				last = cur;
-				cur = cur->next;
-			}
-		}
-	}
-};
-
-int main() {
-	int N;
-	scanf("%d", &N);
-	Poly p1, p2;
-	for (int i = 0; i < N; i++) {
-		int n;
-		float a;
-		scanf("%d %f", &n, &a);
-		p1.insert(a, n);
-	}
-	int N2;
-	scanf("%d", &N2);
-	for (int i = 0; i < N2; i++) {
-		int n;
-		float a;
-		scanf("%d %f", &n, &a);
-		Node* cur = p1.head;
-		for (int j = 0; j < N; j++) {
-			p2.insert(cur->a * a, cur->n + n);
-			cur = cur->next;
-		}
-	}
-
-	p2.print();
-
-	return 0;
 }
 
+
+int main()
+{
+	unordered_map<int, float> ua, ub;
+	map<int, float> uc;
+	read_poly(ua);
+	read_poly(ub);
+	for (auto &x : ua)
+		for (auto &y : ub)
+			uc[x.first+y.first] += x.second*y.second;
+	vector<pair<int, float>> res;
+	for (auto &x : uc)
+		if (x.second != 0.f)
+			res.push_back(x);
+	if (res.size() == 0) printf("0");
+	else {
+		printf("%d ", res.size());
+		for (int i=res.size()-1; i>=0; --i)
+			printf("%d %.1f%c", res[i].first, res[i].second, i?' ':'\n');
+	}
+	return 0;
+}
