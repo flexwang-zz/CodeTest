@@ -49,13 +49,12 @@ N/A
 #include <algorithm>
 #include <string>
 #include <iostream>
-#include <unordered_set>
 
 using namespace std;
 
 int main()
 {
-    unordered_set<string> um[4][101];
+    vector<string> um[4][101];
     int n, m;
     cin >> n >> m;
     for (int i=0; i<n; ++i) {
@@ -63,10 +62,10 @@ int main()
         int c, m, e, a;
         cin >> str >> c >> m >> e;
         a = (c+m+e)/3;
-        um[0][a].insert(str);
-        um[1][c].insert(str);
-        um[2][m].insert(str);
-        um[3][e].insert(str);
+        um[0][a].push_back(str);
+        um[1][c].push_back(str);
+        um[2][m].push_back(str);
+        um[3][e].push_back(str);
     }
     unordered_map<string, pair<int, int>> res;
     for (int i=0; i<4; ++i) {
