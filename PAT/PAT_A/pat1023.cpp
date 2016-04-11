@@ -13,91 +13,34 @@
  2469135798
 
  */
+#include <iostream>
+#include <string>
+#include <algorithm>
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+using namespace std;
 
-class BCD {
-public:
-	int digit[30];
-	int permutation[10];
-	int len;
-
-	bool operator==(const BCD&another) const {
-		for (int i = 0; i < 9; i++) {
-			if (permutation[i] != another.permutation[i]) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	BCD(char *ch) {
-		for (int i = 0; i < 10; i++) {
-			permutation[i] = 0;
-		}
-
-		len = strlen(ch);
-
-		for (int i = len - 1; i >= 0; i--) {
-			digit[len - 1 - i] = ch[i] - '0';
-			permutation[digit[len - 1 - i]]++;
-		}
-	}
-
-	BCD() {
-		for (int i = 0; i < 10; i++) {
-			permutation[i] = 0;
-		}
-		len = 0;
-	}
-
-	BCD operator*(const int m) const {
-		BCD another;
-
-		int carry = 0;
-		for (int i = 0; i < len; i++) {
-			another.digit[i] = digit[i] * m + carry;
-			carry = another.digit[i] / 10;
-			another.digit[i] %= 10;
-			another.permutation[another.digit[i]]++;
-		}
-
-		another.len = len;
-		if (carry > 0) {
-			another.digit[another.len++] = carry;
-			another.permutation[carry]++;
-		}
-
-		return another;
-	}
-
-	void print(char* tail) {
-		for (int i = 0; i < len; i++) {
-			printf("%d", digit[len - 1 - i]);
-		}
-		printf("%s", tail);
-	}
-};
-
-int main() {
-	char str[30];
-
-	scanf("%s", str);
-
-	BCD b(str);
-
-//  b.print("\n");
-	if (b == b * 2) {
-		printf("Yes\n");
-	} else {
-		printf("No\n");
-	}
-
-	(b * 2).print("\n");
-	//while(1);
-	return 0;
+string mul(const string& str, int n) 
+{
+    string res;
+    int c = 0;
+    for (int i=str.length()-1; i>=0; --i) {
+        int v = c+(str[i]-'0')*n;
+        res += '0'+v%10;
+        c = v/10;
+    }
+    if (c) res.push_back(c+'0');
+    reverse(res.begin(), res.end());
+    return res;
 }
 
+int main()
+{
+    string a;
+    cin >> a;
+    string b = mul(a, 2), c = b;
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+    cout << (a==b?"Yes":"No") << endl;
+    cout << c << endl;
+    return 0;
+}
