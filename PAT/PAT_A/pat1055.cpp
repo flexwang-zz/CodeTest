@@ -47,121 +47,61 @@ Cindy 76 76000
 Case #4:
 None
 */
-#include<string.h>
-#include<vector>
-#include<stdio.h>
-#include<algorithm>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <set>
+#include <vector>
+#include <stdio.h>
 
 using namespace std;
 
-#define min(a,b) (a<b)?a:b
-
-class Person
-{
-public:
-	char name[19];
-	int age;
-	int worth;
-
-	void print()
-	{
-		printf("%s %d %d\n", name, age, worth);
-	}
-
-	bool operator<(const Person &person) const
-	{
-		if( worth == person.worth)
-		{
-			if( age == person.age)
-			{
-				return strcmp(name, person.name) < 0;
-			}
-			return age < person.age;
-		}
-		else
-		{
-			return worth > person.worth;
-		}
-	}
+struct P {
+    string name;
+    int age, value;
+    bool operator <(const P& p) const {
+        if (p.value != value)
+            return value > p.value;
+        else if (p.age != age)
+            return age < p.age;
+        return name < p.name;
+    }
 };
+
+vector<P> tab[201];
 
 int main()
 {
-	int nperson, nquery;
-
-	scanf("%d %d", &nperson, &nquery);
-	vector<vector<Person>> table(201);
-	vector<int> index(201, 0);
-
-	for(int i=0; i<nperson; i++)
-	{
-		Person p;
-		scanf("%s %d %d", p.name, &p.age, &p.worth);
-		table[p.age].push_back(p);
-	}
-
-	for( int i=0,size=table.size(); i<size; i++)
-	{
-		sort(table[i].begin(), table[i].end());
-	}
-
-	for(int i=1; i<=nquery; i++)
-	{
-		int agemin, agemax, k;
-
-		scanf("%d %d %d", &k, &agemin, &agemax);
-
-		printf("Case #%d:\n", i);
-
-		int K = 0;
-
-		for(int j=agemin; j<=agemax; j++)
-		{
-			index[j] = 0;
-		}
-
-		Person minp;
-		int minindex;
-
-		while(true)
-		{
-			bool reachend = true;
-			minp.worth = -1000001;
-			for( int j=agemin; j<=agemax; j++)
-			{
-				if( index[j] >= table[j].size())
-				{
-				}
-				else
-				{
-					reachend = false;
-					if( table[j][index[j]] < minp)
-					{
-						minindex = j;
-						minp = table[j][index[j]];
-					}
-				}
-			}
-
-			if( reachend)
-			{
-				if( !K)
-				{
-					printf("None\n");
-				}
-				break;
-			}
-			else
-			{
-				minp.print();
-				index[minindex]++;
-				if( ++K == k)
-				{
-					break;
-				}
-			}
-		}
-	}
-
-	return 0;
+    int n, m;
+    cin >> n >> m;
+    for (int i=0; i<n; ++i) {
+        string name;
+        int age, value;
+        cin >> name >> age >> value;
+        tab[age].push_back({name, age, value});
+    }
+    for (auto &x : tab)
+        sort(x.begin(), x.end());
+    for (int i=0; i<m; ++i) {
+        int k, lb, ub;
+        cin >> k >> lb >> ub;
+        printf("Case #%d:\n", i+1);
+        set<pair<P,int>> pq;
+        for (int j=lb; j<=ub; ++j)
+            if (j>0 && j<=200 && tab[j].size())
+                pq.insert(make_pair(tab[j][0], 0));
+        if (pq.size() == 0)
+            cout << "None" << endl;
+        else 
+            for (int l=0; l<k && pq.size(); ++l) {
+                auto p = pq.begin();
+                printf("%s %d %d\n", p->first.name.c_str(),
+                    p->first.age, p->first.value);
+                int age = p->first.age, idx = p->second;
+                pq.erase(p);
+                if (++idx < tab[age].size())
+                    pq.insert(make_pair(tab[age][idx], idx));
+            }
+    }
+    return 0;
 }
