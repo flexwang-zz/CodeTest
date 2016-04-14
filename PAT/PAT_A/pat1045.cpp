@@ -20,102 +20,36 @@ Sample Input:
 Sample Output:
 7
 */
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <string.h>
+#include <limits.h>
 
-#include<stdio.h>
-#include<vector>
-#include<algorithm>
+const int max_n = 10002;
+int tab[201];
+int a[max_n], dp[max_n];
+int n, l;
 
 using namespace std;
 
 int main()
 {
-	int ncolor, norder;
-
-	scanf("%d %d", &ncolor, &norder);
-
-	vector<int> color;
-	vector<int> order(ncolor+1, 0);
-
-	for( int i=0; i<norder; i++)
-	{
-		int c;
-
-		scanf("%d", &c);
-
-		order[c] = i+1;
-	}
-
-	int len;
-
-	scanf("%d", &len);
-
-	for(int i=0; i<len; i++)
-	{
-		int c;
-
-		scanf("%d", &c);
-
-		if( order[c] > 0)
-		{
-			color.push_back(order[c]);
-		}
-	}
-
-	// longest non-descending subsequence
-
-
-	bool dp = true;
-	
-	if( dp)
-	{
-		int size = color.size();
-		
-		vector<int> F(size, 0);
-
-		F[0] = 1;
-		int totalmax = 1;
-
-		for( int i=1; i<size; i++)
-		{
-			int max = 1;
-
-			for(int j=0; j<i; j++)
-			{
-				if( color[j] <= color[i] && (F[j]+1)>max)
-				{
-					max = F[j]+1;
-				}
-			}
-			F[i] = max;
-
-			if( F[i] > totalmax)
-			{
-				totalmax = F[i];
-			}
-		}
-		
-		printf("%d", totalmax);
-	}
-	else
-	{
-		vector<int> D;
-		
-		for( int i=0,size=color.size(); i<size; i++)
-		{
-			vector<int>::iterator iter = upper_bound(D.begin(), D.end(), color[i]);
-
-			if( iter == D.end())
-			{
-				D.push_back(color[i]);
-			}
-			else
-			{
-				*iter = color[i];
-			}
-
-		}
-		
-		printf("%d", D.size());
-	}
-	return 0;
+    cin >> n >> n;
+    for (int i=0; i<n; ++i) {
+        int x;
+        cin >> x;
+        tab[x] = i+1;
+    }
+    cin >> l;
+    for (int i=0; i<l; ++i) {
+        int x;
+        cin >> x;
+        a[i] = tab[x];
+    }
+    fill(dp, dp+max_n, INT_MAX);
+    for (int i=0; i<l; ++i)
+        if (a[i]) *upper_bound(dp, dp+l, a[i]) = a[i];
+    cout << (lower_bound(dp, dp+max_n, INT_MAX)-dp) << endl;
+    return 0;
 }
