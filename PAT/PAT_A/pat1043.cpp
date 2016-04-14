@@ -31,165 +31,81 @@
 
  Sample Output 3:
  NO
-
-
  */
 
-#include<stdio.h>
-#include<iostream>
-#include<string>
-#include<vector>
-#include<sstream>
-#include<stdlib.h>
+#include <iostream>
+#include <vector>
+#include <stdio.h>
 
 using namespace std;
 
-struct Node {
-	int val;
-	Node* right, *left;
-
-	Node(int v) :
-			val(v), right(NULL), left(NULL) {
-	}
+struct TreeNode
+{
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int v):val(v), left(NULL), right(NULL){}
 };
 
-void Itoa(int v, char *ch, int radix) {
-	int index = 0;
-
-	do {
-		ch[index++] = v % 10 + '0';
-		v /= 10;
-	} while (v > 0);
-	ch[index] = '\0';
-	for (int i = 0; i < index / 2; i++) {
-		char tmp = ch[i];
-		ch[i] = ch[index - 1 - i];
-		ch[index - 1 - i] = tmp;
-	}
-}
-
-class Tree {
+class BST
+{
 public:
-	Node *head;
-	Node *head2;
-
-	Tree() :
-			head(NULL), head2(NULL) {
-	}
-
-	void insert(int val) {
-		insert(val, head);
-	}
-
-	void insert(int val, Node*&t) {
-		if (!t) {
-			t = new Node(val);
-		} else {
-			if (val < t->val) {
-				insert(val, t->left);
-			} else {
-				insert(val, t->right);
-			}
-
-		}
-	}
-
-	vector<int> preorder() {
-		vector<int> v;
-		preorder(v, head);
-
-		return v;
-	}
-
-	vector<int> preorder2() {
-		vector<int> v;
-		preorder2(v, head);
-
-		return v;
-	}
-
-	void postorder2() {
-		bool space = false;
-		postorder2(head, space);
-	}
-
-	void postorder2(Node*n, bool &space) {
-		if (n) {
-			postorder2(n->right, space);
-			postorder2(n->left, space);
-
-			if (space) {
-				cout << " ";
-			} else {
-				space = true;
-			}
-			cout << n->val;
-		}
-	}
-
-	void postorder() {
-		bool space = false;
-		postorder(head, space);
-	}
-
-	void postorder(Node*n, bool& space) {
-		if (n) {
-			postorder(n->left, space);
-			postorder(n->right, space);
-			if (space) {
-				cout << " ";
-			} else {
-				space = true;
-			}
-			cout << n->val;
-		}
-	}
-
-	void preorder(vector<int> &v, Node*n) {
-		if (n) {
-			v.push_back(n->val);
-			preorder(v, n->left);
-			preorder(v, n->right);
-		}
-	}
-
-	void preorder2(vector<int> &v, Node*n) {
-		if (n) {
-			v.push_back(n->val);
-			preorder2(v, n->right);
-			preorder2(v, n->left);
-
-		}
-	}
-
+    BST():root(NULL){}
+    void insert(int v, TreeNode* &node) {
+        if (!node) node = new TreeNode(v);
+        else if (v < node->val) insert(v, node->left);
+        else insert(v, node->right);
+    }
+    TreeNode *root;
+    void preorder(vector<int> &v, TreeNode* &node) {
+        if (!node) return;
+        v.push_back(node->val);
+        preorder(v, node->left);
+        preorder(v, node->right);
+    }
+    void mirror_preorder(vector<int> &v, TreeNode* &node) {
+        if (!node) return;
+        v.push_back(node->val);
+        mirror_preorder(v, node->right);
+        mirror_preorder(v, node->left);
+    }
+    void postorder(vector<int> &v, TreeNode *&node) {
+        if (!node) return;
+        postorder(v, node->left);
+        postorder(v, node->right);
+        v.push_back(node->val);
+    }
+    void mirror_postorder(vector<int> &v, TreeNode *&node) {
+        if (!node) return;
+        mirror_postorder(v, node->right);
+        mirror_postorder(v, node->left);
+        v.push_back(node->val);
+    }
 };
 
-int main() {
-	int n;
-	Tree tree;
-	cin >> n;
-
-	vector<int> v;
-	int d;
-	for (int i = 0; i < n; i++) {
-		cin >> d;
-		v.push_back(d);
-		tree.insert(d);
-	}
-
-//  cout<<tree.preorder()<<endl<<tree.preorderimg()<<endl;
-	if (v == tree.preorder()) {
-		printf("YES\n");
-
-		tree.postorder();
-	} else if (v == tree.preorder2()) {
-		printf("YES\n");
-		tree.postorder2();
-	} else {
-		printf("NO\n");
-	}
-
-//  while(1);
-	return 0;
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    BST bst;
+    for (auto &x : v) {
+        cin >> x;
+        bst.insert(x, bst.root);
+    }
+    vector<int> v1, v2;
+    bst.preorder(v1, bst.root);
+    bst.mirror_preorder(v2, bst.root);
+    if (v1 == v || v2 == v) {
+        cout << "YES" << endl;
+        vector<int> v3;
+        if (v1 == v)
+            bst.postorder(v3, bst.root);
+        else
+            bst.mirror_postorder(v3, bst.root);
+        for (int i=0; i<v3.size(); ++i)
+            printf("%d%c", v3[i], i==v3.size()-1?'\n':' ');
+    }
+    else
+        cout << "NO" << endl;
+    return 0;
 }
-

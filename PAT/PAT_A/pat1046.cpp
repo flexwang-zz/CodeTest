@@ -16,44 +16,31 @@
  10
  7
  */
+#include <vector>
+#include <iostream>
+#include <algorithm>
 
-#include<stdio.h>
+using namespace std;
 
-#define min(a,b) ((a<b)?a:b)
-#define max(a,b) ((a>b)?a:b)
-
-int main() {
-	int ncity;
-	int dist[100000];
-	int dist2[100000];
-	int circle = 0;
-	scanf("%d", &ncity);
-
-	for (int i = 1; i <= ncity; i++) {
-		scanf("%d", &dist[i % ncity]);
-		circle += dist[i % ncity];
-	}
-
-	dist2[0] = 0;
-	for (int i = 1; i < ncity; i++) {
-		dist2[i] = dist2[i - 1] + dist[i - 1];
-	}
-
-	int nquery;
-	scanf("%d", &nquery);
-
-	for (int i = 0; i < nquery; i++) {
-		int start, end;
-
-		scanf("%d %d", &start, &end);
-
-		int s = min(start % ncity, end % ncity);
-		int e = max(start % ncity, end % ncity);
-
-		int d = dist2[e] - dist2[s];
-		printf("%d\n", min(d, circle - d));
-	}
-
-	return 0;
+int main()
+{
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    int sum = 0;
+    for (int i=0; i<n; ++i) {
+        int x;
+        cin >> x;
+        v[i] = sum;
+        sum += x;
+    }
+    int k;
+    cin >> k;
+    while (k--) {
+        int a, b;
+        cin >> a >> b;
+        if (--a > --b) swap(a, b);
+        cout << min(v[b]-v[a], sum-v[b]+v[a]) << endl;
+    }
+    return 0;
 }
-

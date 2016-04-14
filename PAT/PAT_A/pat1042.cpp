@@ -9,49 +9,33 @@
  For each test case, print the shuffling results in one line. All the cards are separated by a space, and there must be no extra space at the end of the line.
  */
 
-#include<stdio.h>
+#include <string>
+#include <vector>
+#include <stdio.h>
+#include <iostream>
 
-int main() {
-	char cards[][4] = { "", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8",
-			"S9", "S10", "S11", "S12", "S13", "H1", "H2", "H3", "H4", "H5",
-			"H6", "H7", "H8", "H9", "H10", "H11", "H12", "H13", "C1", "C2",
-			"C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12",
-			"C13", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10",
-			"D11", "D12", "D13", "J1", "J2" };
-	int nrepeat;
-	int order[55];
-	char *now[55];
-	char *cur[55];
+using namespace std;
 
-	scanf("%d", &nrepeat);
-
-	for (int i = 1; i <= 54; i++) {
-		scanf("%d", &order[i]);
-	}
-
-	for (int i = 0; i <= nrepeat; i++) {
-		if (i) {
-			for (int j = 1; j <= 54; j++) {
-				cur[order[j]] = now[j];
-			}
-		} else {
-			for (int j = 1; j <= 54; j++) {
-				cur[j] = cards[j];
-			}
-		}
-
-		for (int j = 1; j <= 54; j++) {
-			now[j] = cur[j];
-		}
-	}
-
-	for (int i = 1; i <= 54; i++) {
-		if (i != 1) {
-			printf(" ");
-		}
-		printf("%s", cur[i]);
-	}
-
-	return 0;
+int main()
+{
+    vector<string> cards;
+    for (int i=0; i<4; ++i)
+        for (int j=1; j<14; ++j)
+            cards.push_back("SHCD"[i]+to_string(j));
+    cards.push_back("J1");
+    cards.push_back("J2");
+    int k;
+    vector<int> perm(54);
+    cin >> k;
+    for (auto &x : perm)
+        cin >> x;
+    for (int i=0; i<k; ++i) {
+        vector<string> temp(54);
+        for (int j=0; j<54; ++j)
+            temp[perm[j]-1] = cards[j];
+        cards = temp;
+    }
+    for (int i=0; i<cards.size(); ++i)
+        printf("%s%c", cards[i].c_str(), i==cards.size()-1?'\n':' ');
+    return 0;
 }
-
