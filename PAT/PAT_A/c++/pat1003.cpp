@@ -18,136 +18,58 @@ Sample Output
 2 4
 */
 
-#include <stdio.h>
+#include <iostream>
+#include <vector>
 
-typedef int Vertex;
-
-struct TableEntry
-{
-	Vertex Adjacent[500];
-	int L[500];
-	int NAdjacent;
-	int Dist;
-	int NPath;
-	int NTeam;
-	int TotalTeam;
-	bool Known;
+using namespace std;
+struct edge{
+    int to, time;
 };
-
-#define NotAVertex (-1)
-#define MaxDist (-1)
-
-void Dikstra(TableEntry* T, int NCity);
 
 int main()
 {
-	int NCity, NRoad;
-	Vertex from , to;
-	struct TableEntry City[500];
- 
-	scanf("%d %d %d %d", &NCity, &NRoad, &from, &to);
-	for( int i=0; i<NCity; i++)
-	{
-		int NTeam;
-		scanf("%d", &NTeam);
-   
-		City[i].NTeam = NTeam;    
-		City[i].Known = false;
-		City[i].NAdjacent = 0;
-   
-		if( i == from )
-		{
-			City[i].Dist = 0;
-			City[i].NPath = 1;
-			City[i].TotalTeam = NTeam;
-		}
-		else
-		{
-			City[i].Dist = MaxDist;
-			City[i].NPath = 0;
-			City[i].TotalTeam = 0;
-		}
-     
-	}
- 
-	for( int i=0; i<NRoad; i++)
-	{
-		int v1, v2, L;
-		scanf("%d %d %d" , &v1, &v2, &L);
-		City[v1].Adjacent[City[v1].NAdjacent] = v2;
-		City[v1].L[City[v1].NAdjacent] = L;
-		City[v2].Adjacent[City[v2].NAdjacent] = v1;
-		City[v2].L[City[v2].NAdjacent] = L;
-   
-		City[v1].NAdjacent++;
-		City[v2].NAdjacent++;
-		}
- 
+    int n, m, c1, c2;
+    vector<vector<edge>> G;
+    vector<int> nt;
+    
+    cin >> n >> m >> c1 >> c2;
+    G.resize(n);
+    nt.resize(n);
+    for (int i=0; i<n; ++i)
+        cin >> nt[i];
+    for (int i=0; i<m; ++i) {
+        int v, s, t;
+        cin >> v >> s >> t;
+        G[v].push_back({s, t});
+        G[s].push_back({v, t});
+    }
 
-	Dikstra(City, NCity);
- 
-	printf("%d %d", City[to].NPath, City[to].TotalTeam);
- 
-	return 0;
-}
-
-void Dikstra(TableEntry* T, int NCity)
-{  
-	for(;;)
-	{
-		//V = smallest unknown distanc vertex;
-		int min = MaxDist;
-		int nmin = 0;
-		Vertex vmin[500];
-		for(int i=0; i<NCity; i++)
-		{
-			if( T[i].Known || T[i].Dist == MaxDist)
-			{
-     		continue;
-     		}
-			if( min == MaxDist || min > T[i].Dist )
-			{
-				vmin[0] = i;
-				nmin = 1;
-				min = T[i].Dist;
-			}
-			else if( min == T[i].Dist )
-			{
-				vmin[nmin++] = i;
-			}
-		}
-   
-		if( nmin <= 0 )
-			break;
-	   
-	   //printf("nmin: %d min: %d\n", nmin, min);
-		 
-		for( int j=0; j<nmin; j++)
-		{
-			int index = vmin[j];
-			//  printf("%d ", index);
-			T[index].Known = true;
-	   
-			for( int k=0; k<T[index].NAdjacent; k++)
-			{
-				if( !T[T[index].Adjacent[k]].Known )
-				{
-					if( T[T[index].Adjacent[k]].Dist == MaxDist || T[index].Dist + T[index].L[k] < T[T[index].Adjacent[k]].Dist)
-					{
-						T[T[index].Adjacent[k]].Dist = T[index].Dist + T[index].L[k];
-						T[T[index].Adjacent[k]].NPath = T[index].NPath;
-						T[T[index].Adjacent[k]].TotalTeam = T[index].TotalTeam + T[T[index].Adjacent[k]].NTeam;
-		 			}
-		 			else if(T[index].Dist + T[index].L[k] == T[T[index].Adjacent[k]].Dist)
-		 			{
-						T[T[index].Adjacent[k]].NPath += T[index].NPath;
-						if( (T[T[index].Adjacent[k]].NTeam + T[index].TotalTeam) > T[T[index].Adjacent[k]].TotalTeam )
-						{
-							T[T[index].Adjacent[k]].TotalTeam = T[T[index].Adjacent[k]].NTeam + T[index].TotalTeam;
-						}
-					}	
-				}
-			}
-	   	}
-	}
+    vector<bool> used(n);
+    vector<int> dist(n, 0x5fffffff), cost(n), np(n);
+    dist[c1] = 0;
+    cost[c1] = nt[c1];
+    np[c1] = 1;
+    for (;;) {
+        int idx = -1;
+        for (int i=0; i<n; ++i) 
+            if (!used[i] && (idx < 0 || dist[idx] > dist[i]))
+                idx = i;
+        if (idx < 0) break;
+        used[idx] = true;
+        for (auto &e : G[idx]) {
+            int t = e.to;
+            if (used[t]) continue;
+            if (dist[t] > dist[idx] + e.time) {
+                dist[t] = dist[idx]+e.time; 
+                cost[t] = cost[idx]+nt[t];
+                np[t] = np[idx];
+            }
+            else if (dist[t] == dist[idx] + e.time) {
+                cost[t] = max(cost[t], cost[idx]+nt[t]);
+                np[t] += np[idx];
+            }
+        }
+    }
+    cout << np[c2] << " " << cost[c2] << endl;
+    return 0;
 }

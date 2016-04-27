@@ -15,40 +15,25 @@ Sample Output
 -999,991
 */
 
-#include<stdio.h>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
 int main()
 {
 	int a, b;
-
-	scanf("%d %d", &a, &b);
-
+    cin >> a >> b;
 	a += b;
-
-	if( a < 0)
-	{
-		printf("-");
+	if(a < 0) {
+		cout << '-';
 		a = -a;
 	}
-
-	vector<int> digits;
-	do
-	{
-		digits.insert(digits.begin(), a%10);
-		a /= 10;
-	}while(a > 0);
-
-	for( int i=0, size=digits.size(); i<size; i++)
-	{
-		if(  (size-i)%3 == 0 && i)
-		{
-			printf(",");
-		}
-		printf("%d", digits[i]);
+    string digits = to_string(a);
+	for(int i=0, size=digits.size(); i<size; i++) {
+		if((size-i)%3 == 0 && i) cout << ',';
+		cout << digits[i];
 	}
-
 	return 0;
 }
