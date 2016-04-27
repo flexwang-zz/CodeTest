@@ -52,67 +52,39 @@
  LOR6
  ZOE1
  */
-
-#include<stdio.h>
-#include<vector>
-#include<algorithm>
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
+#include <string>
 
 using namespace std;
 
-int Atoi(char name[5]) {
-	int r = 0;
-
-	r = (((name[0] - 'A') * 26 + (name[1] - 'A')) * 26 + (name[2] - 'A')) * 10
-			+ name[3] - '0';
-
-	return r;
+int main()
+{
+    int n, k;
+    scanf("%d %d", &n, &k);
+    vector<pair<string,int>> pos(n);
+    vector<vector<int>> tab(n);
+    for (int i=0; i<n; ++i) {
+        cin >> pos[i].first;
+        pos[i].second = i;
+        int cnt;
+        scanf("%d", &cnt);
+        for (int j=0; j<cnt; ++j) {
+            int course;
+            scanf("%d", &course);
+            tab[i].push_back(course-1);
+        }
+    }
+    sort(pos.begin(), pos.end());
+    vector<vector<string>> res(k);
+    for (auto &p : pos)
+        for (auto &q : tab[p.second])
+            res[q].push_back(p.first);
+    for (int i=0; i<k; ++i) {
+        printf("%d %d\n", i+1, res[i].size());
+        for (auto &s : res[i]) 
+            printf("%s\n", s.c_str());
+    }
+    return 0;
 }
-
-void print(int r) {
-	char name[5];
-
-	name[4] = '\0';
-	name[3] = r % 10 + '0';
-
-	r /= 10;
-
-	for (int i = 2; i >= 0; i--) {
-		name[i] = r % 26 + 'A';
-		r /= 26;
-	}
-
-	printf("%s\n", name);
-}
-
-int main() {
-	int nstudent, ncourse;
-
-	scanf("%d %d", &nstudent, &ncourse);
-	vector<vector<int>> course(ncourse + 1);
-
-	for (int i = 0; i < nstudent; i++) {
-		char name[5];
-		int n;
-
-		scanf("%s %d", name, &n);
-
-		for (int j = 0; j < n; j++) {
-			int c;
-			scanf("%d", &c);
-
-			course[c].push_back(Atoi(name));
-		}
-	}
-
-	for (int i = 1; i <= ncourse; i++) {
-		sort(course[i].begin(), course[i].end());
-		printf("%d %d\n", i, course[i].size());
-
-		for (int j = 0; j < course[i].size(); j++) {
-			print(course[i][j]);
-		}
-	}
-
-	return 0;
-}
-

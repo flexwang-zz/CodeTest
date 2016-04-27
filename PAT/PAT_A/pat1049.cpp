@@ -14,51 +14,24 @@ Sample Input:
 Sample Output:
 5
 */
+#include <stdio.h>
 
-#include<stdio.h>
-#include<string.h>
-#include<math.h>
-#include<stdlib.h>
-
-int atoi(char*str, int start, int end)
+int f(int n) 
 {
-	int result = 0;
-
-	for( int i=start; i<=end; i++)
-	{
-		result = result*10 + str[i]-'0';
-	}
-
-	return result;
+	if (n < 10) return n?1:0;
+	int p = 1;
+	while (n/p >= 10)
+		p *= 10;
+	int d = n / p;
+	int a = d*f(p-1);
+	int b = d==1?(n%p+1):p;
+	int c = n%p;
+	return a + b + f(c);
 }
 
 int main()
 {
-	char str[30];
-
-	scanf("%s", str);
-
-	int n = 0;
-	int len = strlen(str);
-
-
-	for( int i=0; i<len; i++)
-	{
-		if( str[i] == '1' )
-		{
-			n += atoi(str, i+1, len-1)+1;
-		}
-		else if( str[i] == '0' )
-		{
-		}
-		else
-		{
-			n += pow(10.f, len-i-1);
-		}
-
-		n += (atoi(str, 0, i-1))*pow(10.f, len-i-1);
-	}
-
-	printf("%d", n);
-	return 0;
+	int n;
+	scanf("%d", &n);
+	printf("%d\n", f(n));
 }
