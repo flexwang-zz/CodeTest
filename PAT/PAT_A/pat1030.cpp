@@ -122,7 +122,7 @@ int main() {
 
 	printf("%d %d %d", d, cities[d].dist, cities[d].cost);
 
-	//while(1);
+	
 	return 0;
 }
 

@@ -59,7 +59,7 @@ int main() {
 		printf("%c", str[i]);
 	}
 
-	//while(1);
+	
 	return 0;
 }
 
