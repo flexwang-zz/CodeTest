@@ -1,5 +1,3 @@
-//#define POJ_3176
-#ifdef  POJ_3176
 #include <stdio.h>
 #include <algorithm>
 using namespace std;
@@ -22,5 +20,3 @@ int main()
     printf("%d\n", dp[0][0]);
     return 0;
 }
-
-#endif

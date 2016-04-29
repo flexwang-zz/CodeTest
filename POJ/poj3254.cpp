@@ -1,5 +1,3 @@
-//#define POJ_3254
-#ifdef  POJ_3254
 #include <stdio.h>
 #include <vector>
 using namespace std;
@@ -56,5 +54,3 @@ int main()
 	printf("%lld", ans);
 	return 0;
 }
-
-#endif

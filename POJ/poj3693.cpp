@@ -1,5 +1,3 @@
-//#define POJ_3693
-#ifdef  POJ_3693
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
@@ -66,4 +64,3 @@ int main()
 		solve();
 	}
 }
-#endif

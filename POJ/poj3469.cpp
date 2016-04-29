@@ -1,5 +1,3 @@
-//#define POJ_3469
-#ifdef  POJ_3469
 #include <stdio.h>
 #include <algorithm>
 #include <vector>
@@ -67,5 +65,3 @@ int main()
     printf("%d\n", ans);
     return 0;
 }
-
-#endif

@@ -1,5 +1,3 @@
-//#define POJ_2406
-#ifdef  POJ_2406
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
@@ -73,19 +71,6 @@ bool solve()
 		else
 			printf("1\n");
 	}
-
-	/*int t = rank[0] - 1;
-	int dx = n - lcp[t];
-	if (n%dx) {
-		printf("1\n");
-	}
-	else {
-		int ans = n/dx;
-		if (lcp[t+1-ans]==0)
-			printf("%d\n", ans);
-		else
-			printf("1\n");
-	}*/
 	return true;
 }
 
@@ -94,4 +79,3 @@ int main()
 	while(solve());
 	return 0;
 }
-#endif

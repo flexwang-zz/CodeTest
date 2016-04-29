@@ -1,5 +1,3 @@
-//#define POJ_2375
-#ifdef  POJ_2375
 #include <stdio.h>
 #include <string.h>
 #include <vector>
@@ -96,4 +94,3 @@ int main()
 	}
 	return 0;
 }
-#endif
