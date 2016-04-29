@@ -16,69 +16,38 @@
  0
  0
  */
+#include <iostream>
+#include <vector>
 
-#include<stdio.h>
-#include<vector>
 using namespace std;
 
-struct road {
-public:
-	int start, end;
-	road(int s, int e) :
-			start(s), end(e) {
+void dfs(int v, vector<bool>& used, vector<vector<int>>&g)
+{
+	used[v] = true;
+	for (auto t : g[v])
+		if (!used[t]) dfs(t, used, g);
+}
+
+int main()
+{
+	int n, m, k;
+	cin >> n >> m >> k;
+	vector<vector<int>> g(n);
+	for (int i=0; i<m; ++i) {
+		int a, b;
+		cin >> a >> b;
+		g[a-1].push_back(b-1);
+		g[b-1].push_back(a-1);
 	}
-};
-
-int findroot(int*, int);
-
-int main() {
-	int N, M, K;
-	int city[1005];
-	vector<struct road> roads;
-
-	scanf("%d %d %d", &N, &M, &K);
-
-	for (int i = 0; i < M; i++) {
-		int start, end;
-		scanf("%d %d", &start, &end);
-
-		roads.push_back(road(start, end));
+	for (int i=0; i<k; ++i) {
+		int t;
+		cin >> t;
+		vector<bool> used(n);
+		used[t-1] = true;
+		int cnt = 0;
+		for (int j=0; j<n; ++j)
+			if (!used[j]) ++cnt, dfs(j, used, g);
+		cout << cnt-1 << endl;
 	}
-
-	for (int i = 0; i < K; i++) {
-		int ncomponents = N;
-		for (int i = 1; i <= N; i++) {
-			city[i] = i;
-		}
-		int ocity;
-		scanf("%d", &ocity);
-
-		for (int i = 0; i < M; i++) {
-			int start = roads[i].start;
-			int end = roads[i].end;
-			if (ocity == start || ocity == end) {
-				continue;
-			}
-			int root1 = findroot(city, start);
-			int root2 = findroot(city, end);
-
-			if (root1 != root2) {
-				city[root1] = root2;
-				ncomponents--;
-			}
-		}
-		printf("%d\n", ncomponents - 2);
-	}
-
 	return 0;
 }
-
-int findroot(int* a, int id) {
-	int root;
-	while ((root = a[id]) != id) {
-		a[id] = a[root];
-		id = root;
-	}
-	return id;
-}
-

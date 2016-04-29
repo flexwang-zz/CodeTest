@@ -78,5 +78,4 @@ int main()
     auto p = bst.g();
     printf("%d + %d = %d", p.first, p.second, p.first+p.second);
     return 0;
-
 }

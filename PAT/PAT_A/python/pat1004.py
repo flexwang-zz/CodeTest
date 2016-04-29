@@ -13,7 +13,6 @@ while level:
             next.append(j)
         if not g[i]:
             cnt += 1
-    res.append(cnt)
+    res.append(str(cnt))
     level = next
-for i in range(len(res)):
-    print('%d%s'%(res[i], '\n' if i==len(res)-1 else ' '), end='')
+print(' '.join(res))
