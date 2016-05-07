@@ -46,180 +46,80 @@ Invalid
 5
 3
 Invalid*/
-
-#include<stdio.h>
-#include<vector>
-#include<algorithm>
-#include<string.h>
-#include<queue>
-#include<map>
-#include<list>
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
+#include <set>
+#include <stack>
+#include <string>
 
 using namespace std;
 
-struct StackNode
-{
-	int key;
-	int mid;
-	int offset;
-
-	StackNode(){}
-	StackNode(int k, int m, int o):key(k), mid(m), offset(o){}
-};
-
-class Stack
-{
+class Stack{
 public:
-	vector<int> table;
-	vector<StackNode> v;
-
-	Stack()
-	{
-		table = vector<int>(100001,0);
-	}
-
-	void Push(int key)
-	{
-		table[key]++;
-
-		int size = v.size();
-		if( v.size())
-		{
-			int mid = v.back().mid;
-			int offset = v.back().offset;
-			if( size%2 && key<mid)
-			{
-				offset--;
-
-				if( offset < 0)
-				{
-					for( int i=mid-1; i>0; i--)
-					{
-						if( table[i] > 0)
-						{
-							mid = i;
-							offset = table[i]-1;
-							break;
-						}
-					}
-				}
-			}
-			else if( size%2==0 && key>=mid)
-			{
-				offset++;
-				if( offset >= table[mid])
-				{
-					for( int i=mid+1; i<100001; i++)
-					{
-						if( table[i] > 0)
-						{
-							mid = i;
-							offset = 0;
-							break;
-						}
-					}
-				}
-			}
-			v.push_back(StackNode(key, mid, offset));
-		}
+	void push(int v) {
+		if (m1.empty() || v <= *m1.rbegin())
+			m1.insert(v);
 		else
-		{
-			v.push_back(StackNode(key, key, 0));
-		}
+			m2.insert(v);
+		adjust();
+		st.push(v);
 	}
-	//void Push(int key)
-	//{
-	//	list<int>::iterator iter;
-
-	//	for( iter=keys.begin(); iter!=keys.end(); iter++)
-	//	{
-	//		if( *iter >= key)
-	//		{
-	//			break;
-	//		}
-	//	}
-
-	//	keys.insert(iter, key);
-	//	
-	//	iter--;	//move to the newly inserted position
-
-	//	list<int>::iterator mid;
-
-	//	int size = v.size();
-	//	if( size )
-	//	{
-	//		mid = v.back().mid;
-	//		if( size%2 && key<*mid)
-	//		{
-	//			mid--;	
-	//		}
-	//		else if( size%2==0 && key>*mid)
-	//		{
-	//			mid++;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		mid = iter;
-	//	}
-
-	//	v.push_back(StackNode(iter, mid));
-	//}
-
-	void Pop()
+	int pop() {
+		if (st.empty()) return -1;
+		int p = st.top();
+		st.pop();
+		auto pt = m1.find(p);
+		if (pt != m1.end())
+			m1.erase(pt);
+		else 
+			m2.erase(m2.find(p));
+		adjust();
+		return p;
+	}
+	int pm() {
+		if (st.empty()) return -1;
+		return *m1.rbegin();
+	}
+private:
+	multiset<int> m1, m2;
+	stack<int> st;
+	void adjust()
 	{
-		if( v.size() <= 0)
-		{
-			printf("Invalid\n");
-			return;
-		}		
-
-		int key = v.back().key;
-		printf("%d\n", key);
-		table[key] --;
-		v.pop_back();
-	}
-
-	void Peek()
-	{	
-		if( v.size() <= 0)
-		{
-			printf("Invalid\n");
-			return;
+		if (m1.size() > m2.size()+1) {
+			m2.insert(*m1.rbegin());
+			m1.erase(m1.find(*m1.rbegin()));
 		}
-		printf("%d\n", v.back().mid);
+		else if (m1.size() < m2.size()) {
+			m1.insert(*m2.begin());
+			m2.erase(m2.begin());
+		}
 	}
-
 };
 
 int main()
 {
-	Stack stack;
-
-	int nop;
-	char op[11]; 
-	scanf("%d", &nop);
-
-	for(int i=0; i<nop; i++)
-	{
-		scanf("%s", op);
-
-		if( strcmp(op, "Push") == 0)
-		{
-			int key;
-
-			scanf("%d", &key);
-
-			stack.Push(key);
+	Stack st;
+	int n;
+	scanf("%d", &n);
+	while (n--) {
+		char cmd[15] = {0};
+		scanf("%s", cmd);
+		if (!strcmp(cmd, "Pop")) {
+			int r = st.pop();
+			if (r < 0) printf("Invalid\n");
+			else printf("%d\n", r);
 		}
-		else if(strcmp(op, "Pop") == 0)
-		{
-			stack.Pop();
+		else if (!strcmp(cmd, "PeekMedian")) {
+			int r = st.pm();
+			if (r < 0) printf("Invalid\n");
+			else printf("%d\n", r);
 		}
-		else
-		{
-			stack.Peek();
+		else {
+			int v;
+			scanf("%d", &v);
+			st.push(v);
 		}
 	}
 	return 0;
-} 
+}

@@ -15,22 +15,12 @@
 
 int main() {
 	char radix[] = "0123456789ABC";
-
 	int a[3];
-
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++) 
 		scanf("%d", &a[i]);
-	}
-
 	printf("#");
-
-	for (int i = 0; i < 3; i++) {
-		if (a[i] < 13) {
-			printf("0%c", radix[a[i]]);
-		} else {
-			printf("%c%c", radix[a[i] / 13], radix[a[i] % 13]);
-		}
-	}
-
+	for (int i = 0; i < 3; i++) 
+		printf("%c%c", radix[a[i]/13], radix[a[i]%13]);
+    return 0;
 }
 

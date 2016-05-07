@@ -21,125 +21,45 @@
  3
 
  */
-
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<vector>
-
-#define max(a,b) ((a>b)?a:b)
+#include <string>
+#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
-class BCD {
-public:
-	vector<int> digits;
-
-	BCD() {
+string add(const string &s, const string &t)
+{
+	string r;
+	int c = 0;
+	for (int i=0; i<s.length(); ++i) {
+		int v = s[i]-'0'+t[i]-'0'+c;
+		c = v/10;
+		r += '0' + v%10;
 	}
-
-	BCD(char *str) {
-		int len = strlen(str);
-		for (int i = len - 1; i >= 0; i--) {
-			digits.push_back(str[i] - '0');
-		}
-	}
-
-	BCD operator+(const BCD & another) const {
-		BCD r;
-		int len1 = digits.size();
-		int len2 = another.digits.size();
-		int len = max(len1, len2);
-
-		int carry = 0;
-		for (int i = 0; i < len; i++) {
-			int d = carry;
-			if (i < len1) {
-				d += digits[i];
-			}
-			if (i < len2) {
-				d += another.digits[i];
-			}
-			r.digits.push_back(d % 10);
-			carry = (d - (d % 10)) / 10;
-			//  printf("carry:%d\n", carry);
-		}
-
-		if (carry > 0) {
-			r.digits.push_back(carry);
-		}
-
-		return r;
-	}
-
-	bool operator==(const BCD & another) const {
-		if (digits.size() != another.digits.size()) {
-			return false;
-		}
-
-		for (int i = 0; i < digits.size(); i++) {
-			if (digits[i] != another.digits[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	BCD reverse() {
-		BCD another;
-		int len = digits.size();
-		int i = 0;
-		while (digits[i] == 0)
-			i++;
-		for (int j = 0; j < len - i; j++) {
-			another.digits.push_back(digits[len - j - 1]);
-		}
-
-		return another;
-	}
-
-	void print(char *tail = "") {
-		int len = digits.size();
-		for (int i = 0; i < len; i++) {
-			printf("%d", digits[len - 1 - i]);
-		}
-		printf("%s", tail);
-	}
-
-	bool IsPalindromic() {
-		int i = 0, j = digits.size() - 1;
-
-		for (; i < j; i++, j--) {
-			if (digits[i] != digits[j]) {
-				return false;
-			}
-
-		}
-
-		return true;
-	}
-};
-
-int main() {
-	char str[13];
-	int k;
-
-	scanf("%s %d", str, &k);
-
-	BCD b(str);
-
-	int nstep = 0;
-	bool valid = false;
-
-	while ((!b.IsPalindromic()) && nstep < k) {
-		nstep++;
-		b = b + b.reverse();
-	}
-
-	b.print("\n");
-	printf("%d", nstep);
-
-//  while(1);
-	return 0;
+	if (c) r += '0'+c;
+	reverse(r.begin(), r.end());
+	return r;
 }
 
+bool is_pal(const string &s)
+{
+	for (int i=0, j=s.length()-1; i<j; ++i,--j)
+		if (s[i] != s[j]) return false;
+	return true;
+}
+
+int main()
+{
+	string str;
+	int k, i;
+	cin >> str >> k;
+	i = 0;
+	while (!is_pal(str) && i < k) {
+		string r = str;
+		reverse(r.begin(), r.end());
+		str = add(str, r);
+		++i;
+	}
+	cout << str << endl << i << endl;
+	return 0;
+}

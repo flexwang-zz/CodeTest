@@ -69,7 +69,6 @@ int lessthan2(const void *r1, const void *r2) {
 	if (strcmp((*(Record*) r1).name, (*(Record*) r2).name) == 0) {
 		return lessthan1(r1, r2);
 	}
-
 	return strcmp((*(Record*) r1).name, (*(Record*) r2).name);
 }
 
@@ -103,7 +102,6 @@ int main() {
 		cout << records[i].ID << " " << records[i].name << " "
 				<< records[i].score << endl;
 	}
-
 	return 0;
 }
 
