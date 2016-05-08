@@ -5,7 +5,7 @@ Note that the table size is better to be prime. If the maximum size given by the
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains two positive numbers: MSize (<=104) and N (<=MSize) which are the user-defined table size and the number of input numbers, respectively. Then N distinct positive integers are given in the next line. All the numbers in a line are separated by a space.
+Each input file contains one test case. For each case, the first line contains two positive numbers: MSize (<=10^4) and N (<=MSize) which are the user-defined table size and the number of input numbers, respectively. Then N distinct positive integers are given in the next line. All the numbers in a line are separated by a space.
 
 Output Specification:
 

@@ -3,7 +3,7 @@ The ranklist of PAT is generated from the status list, which shows the scores of
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains 3 positive integers, N (<=104), the total number of users, K (<=5), the total number of problems, and M (<=105), the total number of submittions. It is then assumed that the user id's are 5-digit numbers from 00001 to N, and the problem id's are from 1 to K. The next line contains K positive integers p[i] (i=1, ..., K), where p[i] corresponds to the full mark of the i-th problem. Then M lines follow, each gives the information of a submittion in the following format:
+Each input file contains one test case. For each case, the first line contains 3 positive integers, N (<=10^4), the total number of users, K (<=5), the total number of problems, and M (<=1^05), the total number of submittions. It is then assumed that the user id's are 5-digit numbers from 00001 to N, and the problem id's are from 1 to K. The next line contains K positive integers p[i] (i=1, ..., K), where p[i] corresponds to the full mark of the i-th problem. Then M lines follow, each gives the information of a submittion in the following format:
 
 user_id problem_id partial_score_obtained
 

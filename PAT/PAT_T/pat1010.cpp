@@ -3,7 +3,7 @@ According to Wikipedia: "In mathematics and in particular in combinatorics, the 
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives a positive integer N (<= 105). Then N distinct numbers are given in the next line.
+Each input file contains one test case. For each case, the first line gives a positive integer N (<= 10^5). Then N distinct numbers are given in the next line.
 
 Output Specification:
 

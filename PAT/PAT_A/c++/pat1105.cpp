@@ -3,7 +3,7 @@ This time your job is to fill a sequence of N positive integers into a spiral ma
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives a positive integer N. Then the next line contains N positive integers to be filled into the spiral matrix. All the numbers are no more than 104. The numbers in a line are separated by spaces.
+Each input file contains one test case. For each case, the first line gives a positive integer N. Then the next line contains N positive integers to be filled into the spiral matrix. All the numbers are no more than 10^4. The numbers in a line are separated by spaces.
 
 Output Specification:
 

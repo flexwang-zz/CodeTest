@@ -5,7 +5,7 @@ Now we have a new challenging problem. You are supposed to count the number of t
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives a positive integer N in [3, 105]. The second line contains a permutation of integers from 1 to N and each of the integer is separated by a single space.
+Each input file contains one test case. For each case, the first line gives a positive integer N in [3, 10^5]. The second line contains a permutation of integers from 1 to N and each of the integer is separated by a single space.
 
 Output Specification:
 

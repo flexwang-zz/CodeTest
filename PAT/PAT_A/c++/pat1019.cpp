@@ -7,7 +7,7 @@ Given any non-negative decimal integer N and a base b, you are supposed to tell 
 
 Input Specification:
 
-Each input file contains one test case. Each case consists of two non-negative numbers N and b, where 0 <= N <= 109 is the decimal number and 2 <= b <= 109 is the base. The numbers are separated by a space.
+Each input file contains one test case. Each case consists of two non-negative numbers N and b, where 0 <= N <= 10^9 is the decimal number and 2 <= b <= 1^09 is the base. The numbers are separated by a space.
 
 Output Specification:
 

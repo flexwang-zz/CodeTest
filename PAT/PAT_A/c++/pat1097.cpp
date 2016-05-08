@@ -3,13 +3,13 @@ Given a singly linked list L with integer keys, you are supposed to remove the n
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains the address of the first node, and a positive N (<= 105) which is the total number of nodes. The address of a node is a 5-digit nonnegative integer, and NULL is represented by -1.
+Each input file contains one test case. For each case, the first line contains the address of the first node, and a positive N (<= 10^5) which is the total number of nodes. The address of a node is a 5-digit nonnegative integer, and NULL is represented by -1.
 
 Then N lines follow, each describes a node in the format:
 
 Address Key Next
 
-where Address is the position of the node, Key is an integer of which absolute value is no more than 104, and Next is the position of the next node.
+where Address is the position of the node, Key is an integer of which absolute value is no more than 10^4, and Next is the position of the next node.
 
 Output Specification:
 

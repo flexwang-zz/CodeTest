@@ -3,12 +3,12 @@ Stack is one of the most fundamental data structures, which is based on the prin
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains a positive integer N (<= 105). Then N lines follow, each contains a command in one of the following 3 formats:
+Each input file contains one test case. For each case, the first line contains a positive integer N (<= 10^5). Then N lines follow, each contains a command in one of the following 3 formats:
 
 Push key
 Pop
 PeekMedian
-where key is a positive integer no more than 105.
+where key is a positive integer no more than 10^5.
 
 Output Specification:
 

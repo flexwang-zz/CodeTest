@@ -5,7 +5,7 @@ Now given a sequence, you are supposed to find the sum of all the numbers in all
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives a positive integer N, the size of the sequence which is no more than 105. The next line contains N positive numbers in the sequence, each no more than 1.0, separated by a space.
+Each input file contains one test case. For each case, the first line gives a positive integer N, the size of the sequence which is no more than 10^5. The next line contains N positive numbers in the sequence, each no more than 1.0, separated by a space.
 
 Output Specification:
 

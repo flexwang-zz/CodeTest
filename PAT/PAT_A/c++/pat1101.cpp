@@ -11,7 +11,7 @@ Hence in total there are 3 pivot candidates.
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives a positive integer N (<= 105). Then the next line contains N distinct positive integers no larger than 109. The numbers in a line are separated by spaces.
+Each input file contains one test case. For each case, the first line gives a positive integer N (<= 10^5). Then the next line contains N distinct positive integers no larger than 1^09. The numbers in a line are separated by spaces.
 
 Output Specification:
 

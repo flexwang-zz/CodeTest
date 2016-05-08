@@ -3,7 +3,7 @@ Given a set of N (> 1) positive integers, you are supposed to partition them int
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives an integer N (2 <= N <= 105), and then N positive integers follow in the next line, separated by spaces. It is guaranteed that all the integers and their sum are less than 231.
+Each input file contains one test case. For each case, the first line gives an integer N (2 <= N <= 10^5), and then N positive integers follow in the next line, separated by spaces. It is guaranteed that all the integers and their sum are less than 231.
 
 Output Specification:
 

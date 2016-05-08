@@ -3,7 +3,7 @@ Given a constant K and a singly linked list L, you are supposed to reverse the l
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains the address of the first node, a positive N (<= 105) which is the total number of nodes, and a positive K (<=N) which is the length of the sublist to be reversed. The address of a node is a 5-digit nonnegative integer, and NULL is represented by -1.
+Each input file contains one test case. For each case, the first line contains the address of the first node, a positive N (<= 10^5) which is the total number of nodes, and a positive K (<=N) which is the length of the sublist to be reversed. The address of a node is a 5-digit nonnegative integer, and NULL is represented by -1.
 
 Then N lines follow, each describes a node in the format:
 

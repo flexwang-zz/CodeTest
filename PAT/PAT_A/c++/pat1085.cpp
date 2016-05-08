@@ -5,7 +5,7 @@ Now given a sequence and a parameter p, you are supposed to find from the sequen
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains two positive integers N and p, where N (<= 105) is the number of integers in the sequence, and p (<= 109) is the parameter. In the second line there are N positive integers, each is no greater than 109.
+Each input file contains one test case. For each case, the first line contains two positive integers N and p, where N (<= 10^5) is the number of integers in the sequence, and p (<= 1^09) is the parameter. In the second line there are N positive integers, each is no greater than ^109.
 
 Output Specification:
 

@@ -3,13 +3,13 @@ A linked list consists of a series of structures, which are not necessarily adja
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line contains a positive N (< 105) and an address of the head node, where N is the total number of nodes in memory and the address of a node is a 5-digit positive integer. NULL is represented by -1.
+Each input file contains one test case. For each case, the first line contains a positive N (< 10^5) and an address of the head node, where N is the total number of nodes in memory and the address of a node is a 5-digit positive integer. NULL is represented by -1.
 
 Then N lines follow, each describes a node in the format:
 
 Address Key Next
 
-where Address is the address of the node in memory, Key is an integer in [-105, 105], and Next is the address of the next node. It is guaranteed that all the keys are distinct and there is no cycle in the linked list starting from the head node.
+where Address is the address of the node in memory, Key is an integer in [-105, 10^5], and Next is the address of the next node. It is guaranteed that all the keys are distinct and there is no cycle in the linked list starting from the head node.
 
 Output Specification:
 

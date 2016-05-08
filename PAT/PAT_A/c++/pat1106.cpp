@@ -7,7 +7,7 @@ Now given a supply chain, you are supposed to tell the lowest price a customer c
 
 Input Specification:
 
-Each input file contains one test case. For each case, The first line contains three positive numbers: N (<=105), the total number of the members in the supply chain (and hence their ID's are numbered from 0 to N-1, and the root supplier's ID is 0); P, the price given by the root supplier; and r, the percentage rate of price increment for each distributor or retailer. Then N lines follow, each describes a distributor or retailer in the following format:
+Each input file contains one test case. For each case, The first line contains three positive numbers: N (<=10^5), the total number of the members in the supply chain (and hence their ID's are numbered from 0 to N-1, and the root supplier's ID is 0); P, the price given by the root supplier; and r, the percentage rate of price increment for each distributor or retailer. Then N lines follow, each describes a distributor or retailer in the following format:
 
 Ki ID[1] ID[2] ... ID[Ki]
 

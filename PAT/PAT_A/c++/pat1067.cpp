@@ -9,7 +9,7 @@ Now you are asked to find the minimum number of swaps need to sort the given per
 
 Input Specification:
 
-Each input file contains one test case, which gives a positive N (<=105) followed by a permutation sequence of {0, 1, ..., N-1}. All the numbers in a line are separated by a space.
+Each input file contains one test case, which gives a positive N (<=10^5) followed by a permutation sequence of {0, 1, ..., N-1}. All the numbers in a line are separated by a space.
 
 Output Specification:
 

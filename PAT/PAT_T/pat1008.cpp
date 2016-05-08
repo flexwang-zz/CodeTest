@@ -3,7 +3,7 @@ Given a map of airline routes, you are supposed to check if a round trip can be 
 
 Input Specification:
 
-Each input file contains one test case. For each case, the first line gives two positive integers N (2<= N <= 104) and M (<=6N), which are the total number of cities (hence the cities are numbered from 1 to N) and the number of airline routes, respectively. Then M lines follow, each gives the information of a route in the format of the source city index first, and then the destination city index, separated by a space. It is guaranteed that the source is never the same as the destination.
+Each input file contains one test case. For each case, the first line gives two positive integers N (2<= N <= 10^4) and M (<=6N), which are the total number of cities (hence the cities are numbered from 1 to N) and the number of airline routes, respectively. Then M lines follow, each gives the information of a route in the format of the source city index first, and then the destination city index, separated by a space. It is guaranteed that the source is never the same as the destination.
 
 After the map information, another positive integer K is given, which is the number of queries. Then K lines of queries follow, each contains a pair of distinct cities' indices.
 
