@@ -10,72 +10,28 @@
  Sample Output:
  11
  */
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
 
-#include<stdio.h>
-#include<string.h>
+using std::max;
 
-int maxsym(char*, int, int);
-int maxsym2(char*, int, int);
+const int max_n = 1001;
+char s[max_n];
 
-int main() {
-	char ch[1001];
-	int len;
-
-	gets(ch);
-
-	len = strlen(ch);
-
-	int maxs = 0;
-
-	for (int pivot = 0; pivot < len; pivot++) {
-		int cur = maxsym(ch, pivot, len);
-		int cur2 = maxsym2(ch, pivot, len);
-		if (cur > maxs) {
-			maxs = cur;
-		}
-		if (cur2 > maxs) {
-			maxs = cur2;
-		}
+int main()
+{
+	gets(s);
+	int len = strlen(s);
+	int res = 0;
+	for (int i=0; i<len; ++i) {
+		for (int j=0; i-j>=0 && i+j<len; ++j) 
+			if (s[i+j] != s[i-j]) break;
+			else res = max(res, 1+2*j);
+		for (int j=0; i-j>=0 && i+j+1<len; ++j)
+			if (s[i+j+1] != s[i-j]) break;
+			else res = max(res, 2+2*j);
 	}
-	printf("%d", maxs);
-
-//  while(1);
+	printf("%d\n", res);
 	return 0;
 }
-
-int maxsym(char* ch, int pivot, int size) {
-	int len = 1;
-	int shift = 1;
-
-	while (true) {
-		if ((pivot - shift) < 0 || (pivot + shift) > (size - 1)) {
-			return len;
-		}
-
-		if (ch[pivot - shift] == ch[pivot + shift]) {
-			len += 2;
-		} else {
-			return len;
-		}
-		shift++;
-	}
-}
-
-int maxsym2(char* ch, int pivot, int size) {
-	int len = 0;
-	int shift = 0;
-
-	while (true) {
-		if ((pivot - shift) < 0 || (pivot + 1 + shift) > (size - 1)) {
-			return len;
-		}
-
-		if (ch[pivot - shift] == ch[pivot + 1 + shift]) {
-			len += 2;
-		} else {
-			return len;
-		}
-		shift++;
-	}
-}
-

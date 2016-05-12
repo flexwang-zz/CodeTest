@@ -17,48 +17,28 @@
  None
 
  */
+#include <iostream>
+#include <utility>
 
-#include<stdio.h>
+using namespace std;
+const int max_n = 100001;
+pair<int,int> tab[max_n];
 
-int main() {
-	int lottery[10001];
-	int time[10001];
-
-	for (int i = 1; i <= 10000; i++) {
-		lottery[i] = 0;
-	}
-
-	int nbet;
-
-	scanf("%d", &nbet);
-
-	for (int i = 0; i < nbet; i++) {
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i=0; i<n; ++i) {
 		int x;
-		scanf("%d", &x);
-
-		lottery[x]++;
-		time[x] = i;
+		cin >> x;
+		tab[x].first++;
+		tab[x].second = i;
 	}
-
-	int minindex = 1;
-	int mintime = 100000000;
-	for (int i = 2; i <= 10000; i++) {
-		if (lottery[i] != 1) {
-			continue;
-		}
-
-		if (time[i] < mintime) {
-			minindex = i;
-			mintime = time[i];
-		}
-	}
-
-	if (lottery[minindex] == 1) {
-		printf("%d", minindex);
-	} else {
-		printf("None");
-	}
-
+	int res = -1, id = max_n;
+	for (int i=1; i<max_n; ++i)
+		if (tab[i].first == 1 && tab[i].second < id)
+			res = i, id = tab[i].second;
+	if (res < 0) cout << "None" << endl;
+	else cout << res << endl;
 	return 0;
 }
-
