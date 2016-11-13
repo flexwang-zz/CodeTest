@@ -14,82 +14,62 @@
 
  */
 
-#include<stdio.h>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+#include <stdio.h>
 
 using namespace std;
-
-struct Node {
-	int start1, end1;
-	int start2, end2;
-	Node(int s1, int e1, int s2, int e2) :
-			start1(s1), end1(e1), start2(s2), end2(e2) {
-	}
+struct Node
+{
+	int val;
+	Node* left;
+	Node* right;
+	Node(int v):val(v), left(NULL), right(NULL){}
 };
 
-int main() {
-	int n;
-	int postorder[30];
-	int inorder[30];
+int findRootIndex(vector<int>& v, int begin , int end , int root_val){
+	return std::find(v.begin()+begin, v.begin()+end+1, root_val)-v.begin();
+} 
 
-	scanf("%d", &n);
-	for (int i = 0; i < n; i++) {
-		scanf("%d", &postorder[i]);
+Node* buildTree(const vector<int> &v1, int &idx , const vector<int> &v2 ,int s , int t){
+	if (s > t) return NULL;
+	Node* root = new Node(v1[idx--]);
+	int k = findRootIndex( v2 , s, t , root->val);
+	root->right = buildTree(v1, idx, v2, k+1, t);
+	root->left = buildTree(v1, idx, v2, s, k-1);
+	return root;
+}
+ 
+vector<int> get_bfs(Node* root) {
+	vector<int> rt;
+	if (!root) return rt;
+	queue<Node*> que;
+	que.push(root);
+	while (!que.empty()) {
+		Node *p = que.front();
+		que.pop();
+		rt.push_back(p->val);
+		if (p->left) que.push(p->left);
+		if (p->right) que.push(p->right);
 	}
-	for (int i = 0; i < n; i++) {
-		scanf("%d", &inorder[i]);
-	}
-
-	vector<struct Node> curlayer;
-
-	curlayer.push_back(Node(0, n - 1, 0, n - 1));
-
-	bool firstprint = true;
-
-	while (curlayer.size() > 0) {
-		vector<struct Node> nextlayer;
-		for (int i = 0; i < curlayer.size(); i++) {
-			getchar();
-			int start1 = curlayer[i].start1;
-			int start2 = curlayer[i].start2;
-			int end1 = curlayer[i].end1;
-			int end2 = curlayer[i].end2;
-#ifdef DEBUG
-			printf("%d %d %d %d\n", start1, end1, start2, end2);
-#endif
-			if (firstprint) {
-				firstprint = false;
-			} else {
-				printf(" ");
-			}
-			int root = postorder[end1];
-			printf("%d", root);
-
-			//find the index of root in inorder
-			int rootindex;
-			for (int j = start2; j <= end2; j++) {
-				if (inorder[j] == root) {
-					rootindex = j;
-					break;
-				}
-			}
-
-			int leftsize = rootindex - start2;
-			int rightsize = end2 - rootindex;
-#ifdef DEBUG
-			printf("%d %d\n", leftsize, rightsize);
-#endif
-			if (leftsize > 0)
-				nextlayer.push_back(
-						Node(start1, start1 + leftsize - 1, start2,
-								rootindex - 1));
-			if (rightsize > 0)
-				nextlayer.push_back(
-						Node(start1 + leftsize, end1 - 1, rootindex + 1, end2));
-		}
-		curlayer = nextlayer;
-	}
-
+	return rt;
+}
+ 
+int main()
+{
+	int k;
+	cin>>k;
+	vector<int> post(k), in(k);
+	for (int i = 0; i < k; ++i)
+		cin>>post[i];
+	for (int i = 0; i < k; ++i)
+		cin>>in[i];
+	int idx = k-1;
+	Node* root = buildTree (post , idx, in , 0 , k-1);
+	vector<int> rt = get_bfs(root);
+	for (int i=0; i<k; ++i)
+		printf("%d%c", rt[i], i==k-1?'\n':' ');
 	return 0;
 }
-
